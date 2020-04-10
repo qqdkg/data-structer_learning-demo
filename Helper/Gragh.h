@@ -81,4 +81,11 @@ void DFS_AL(ALGragh G, int v);
 
 void DFS_AL(ALGragh G);//非连通图
 
+
+//图的应用实例
+
+void Dijkastra(AMGragh G, int u);
+
+void CreateAMNet(AMGragh &G);
+
 #endif // GRAGH_H

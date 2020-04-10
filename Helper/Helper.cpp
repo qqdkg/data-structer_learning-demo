@@ -8,9 +8,9 @@ using namespace std;
 
 int main()
 {
-	ALGragh G;
-	CreateALGragh(G);
-	BFS_AL(G, 0);
+	AMGragh G;
+	CreateAMNet(G);
+	
     return 0;
 
 }

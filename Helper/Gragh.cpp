@@ -2,6 +2,7 @@
 #include "Gragh.h"
 #include<iostream>
 #include<queue>
+#include<limits>
 using namespace std;
 
 void CreateAMGragh(AMGragh & G)//创建无向图的邻接矩阵
@@ -272,7 +273,76 @@ void DFS_AL(ALGragh G)
 	for (int i = 0; i < G.vexnum; i++)
 		visited[i] = false;
 
-	for (int i = 0; i < G.vexnum; i++)//非连通图需要查漏点，检查未被访问的顶点
-		for (!visited[i])//如果i节点未被访问
+	for (int i = 0; i < G.vexnum; i++)			//非连通图需要查漏点，检查未被访问的顶点
+		if (!visited[i])										//如果i节点未被访问
 			DFS_AL(G);
 }
+
+#define INF INT_MAX
+void Dijkastra(AMGragh G, int u)
+{
+	//动态分配数组
+	EdgeType *dist = new EdgeType[G.vexnum];
+	bool *flag = new bool[G.vexnum];
+	int *p = new int[G.vexnum];
+
+	//1.初始化距离数组dist[]和前驱数组p[]
+	for (int i = 0; i < G.vexnum; i++)
+	{
+		dist[i] = G.Edge[u][i];								//初始化u到其他各顶点的最小长度
+		flag[i] = false;
+		if (dist[i] = INF)
+			p[i] = -1;												//u到该顶点的距离无穷大，说明顶点i与源点u不相邻
+		else
+			p[i] = u;												//相邻，则设置u为i的前驱节点
+	}
+	dist[u] = 0;
+	flag[u] = true;												//初始时，集合S中只有u，既S{u}
+
+	//2.寻找源点到每一个定点的最短路径
+	for (int i = 0; i < G.vexnum; i++)
+	{
+		int temp = INF, t = u;
+		for(int j=0;j<G.vexnum;j++)						//3.在集合V-S寻找距离源点u最近的顶点t
+			if (!flag[j] && dist[j] < temp)
+			{
+				t = j;
+				temp = dist[j];
+			}
+		if (t == u) return;										//找不到t，跳出循环
+		flag[t] = true;											//否则把t加入到集合S
+		for(int j=0;j<G.vexnum;j++)						//4. 更新与t相邻的节点到源点u的距离
+			if(!flag[j] && G.Edge[t][j]<INF)				//j在集合V-S中,t与j之间有边
+				if (dist[j] > (dist[t] + G.Edge[t][j]))
+				{
+					dist[j] = dist[t] + G.Edge[t][j];
+					p[j] = t;
+				}
+	}
+}
+
+//用于创建网的邻接矩阵(未修改好)
+void CreateAMNet(AMGragh & G)
+{
+	int i, j;
+	VexType u, v;
+
+	VexType vex[] = { '1','2','3','4','5' };
+	int edge[][] = {{INF,2,5,INF ,INF},
+							{ INF ,INF ,2,6,INF },
+							{ INF ,INF ,INF ,7,1},
+							{ INF ,INF ,2,INF ,4},
+							{ INF ,INF ,INF ,INF ,INF }};
+
+	G.vexnum = 5;
+
+	G.edgenum = 8;
+
+	for (i = 0; i < G.vexnum; i++)//输入定点信息，存入定点信息数组
+		G.Vex[i] = vex[i];
+
+	for (i = 0; i < G.vexnum; i++)
+		for (j = 0; j < G.vexnum; j++)
+			G.Edge[i][j] = edge[i][j];
+}
+
