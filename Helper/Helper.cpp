@@ -10,7 +10,7 @@ int main()
 {
 	AMGragh G;
 	CreateAMNet(G);
-	
+	Dijkastra(G, 0);
     return 0;
 
 }
