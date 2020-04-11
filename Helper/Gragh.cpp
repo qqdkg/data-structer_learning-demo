@@ -3,6 +3,7 @@
 #include<iostream>
 #include<queue>
 #include<limits>
+#include<stack>
 using namespace std;
 
 void CreateAMGragh(AMGragh & G)//创建无向图的邻接矩阵
@@ -281,6 +282,9 @@ void DFS_AL(ALGragh G)
 #define INF INT_MAX
 void Dijkastra(AMGragh G, int u)
 {
+	//初始化邻接矩阵
+	CreateAMNet(G);
+
 	//动态分配数组
 	EdgeType *dist = new EdgeType[G.vexnum];
 	bool *flag = new bool[G.vexnum];
@@ -335,9 +339,36 @@ void Dijkastra(AMGragh G, int u)
 			cout << p[i] << " ";
 	}
 	cout << endl;
+
+	//5.显示最短路径经过了哪些节点
+	int x;
+	stack<int> S;
+	for (int i = 0; i < G.vexnum; i++)
+	{
+		x = p[i];
+		if (x == -1 && u != G.Vex[i])
+		{
+			cout << "原点到其他各顶点的最短路径为" << u << "--" << G.Vex[i] << "sorry,无路可达";
+			cout << endl;
+			continue;
+		}
+		while (x != -1)
+		{
+			S.push(x);
+			x = p[x];
+		}
+		cout << "源点到其他各顶点最路径为:";
+		while (!S.empty())
+		{
+			cout << G.Vex[S.top()] << "--";
+			S.pop();
+		}
+		cout << G.Vex[i] << "\t最短距离为" << dist[i] << endl;
+	}
+
 }
 
-//用于创建网的邻接矩阵(未修改好)
+//用于创建网的邻接矩阵(临时)
 void CreateAMNet(AMGragh & G)
 {
 	int i, j;
