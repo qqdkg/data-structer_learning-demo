@@ -9,7 +9,7 @@ using namespace std;
 int main()
 {
 	AMGragh G;
-	Dijkastra(G, 0);
+	Floyd(G);
     return 0;
 
 }

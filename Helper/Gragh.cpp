@@ -391,3 +391,63 @@ void CreateAMNet(AMGragh & G)
 			G.Edge[i][j] = edge[i][j];
 }
 
+//使用有向网G中各个顶点之间的最短路径
+void Floyd(AMGragh G)
+{
+	CreateAMNet_Floyd(G);
+	EdgeType dist[4][4];
+	int p[4][4];
+	int i, j, k;
+	for(i=0;i<G.vexnum;i++)
+		for (j = 0; j < G.vexnum; j++)
+		{
+			dist[i][j] = G.Edge[i][j];
+			if (dist[i][j] < INF && i != j)
+				p[i][j] = i;										//如果i，j之间有弧，则将j的前驱置为i
+			else
+				p[i][j] = -1;									//如果i，j之间无弧，则将j的前驱置为-1
+		}
+	for(k=0;k<G.vexnum;k++)
+		for(i=0;i<G.vexnum;i++)
+			for(j=0;j<G.vexnum;j++)
+				if (dist[i][k] !=INF && dist[k][j]!=INF && dist[i][k] + dist[k][j] < dist[i][j])//从i讲过k到j的路径最短
+				{
+					dist[i][j] = dist[i][k] + dist[k][j];				//更新dist[i][j]
+					p[i][j] = p[k][j];										//更改j的前驱为k;
+				}
+	for (i = 0; i < G.vexnum; i++)
+	{
+		for (j = 0; j < G.vexnum; j++)
+			cout << dist[i][j] << " ";
+		cout << endl;
+	}
+	cout << endl;
+	for (i = 0; i < G.vexnum; i++)
+	{
+		for (j = 0; j < G.vexnum; j++)
+			cout << p[i][j] << " ";
+		cout << endl;
+	}
+}
+
+//用于创建网的邻接矩阵(临时)
+void CreateAMNet_Floyd(AMGragh & G)
+{
+	int i, j;
+	VexType u, v;
+
+	G.vexnum = 4;
+	G.edgenum = 8;
+	VexType vex[4] = { '0','1','2','3' };
+	int edge[4][4] = { { 0,1,INF ,4 },
+								{ INF,0,9,2 },
+								{ 3,5,0,8},
+								{ INF ,INF ,6,0}, };
+
+	for (i = 0; i < G.vexnum; i++)//输入定点信息，存入定点信息数组
+		G.Vex[i] = vex[i];
+
+	for (i = 0; i < G.vexnum; i++)
+		for (j = 0; j < G.vexnum; j++)
+			G.Edge[i][j] = edge[i][j];
+}

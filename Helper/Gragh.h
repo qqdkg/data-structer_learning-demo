@@ -88,4 +88,8 @@ void Dijkastra(AMGragh G, int u);
 
 void CreateAMNet(AMGragh &G);
 
+void Floyd(AMGragh G);
+
+void CreateAMNet_Floyd(AMGragh & G);
+
 #endif // GRAGH_H
