@@ -451,3 +451,87 @@ void CreateAMNet_Floyd(AMGragh & G)
 		for (j = 0; j < G.vexnum; j++)
 			G.Edge[i][j] = edge[i][j];
 }
+
+void prim(int u0, AMGragh G)
+{
+	//顶点个数n、开始顶点u0，带权无向邻接矩阵G
+	//如果s[i]=true,说明i已经加入最小生成树
+	//的顶点集合U，否则顶点i属于集合V-U
+	//将最后的相关的最小权值传递到数组lowcost
+	CreateAMNet_prim(G);
+	bool *s = new bool[G.vexnum];
+	int *lowcost = new int[G.vexnum];
+	int *closest = new int[G.vexnum];
+
+	s[u0] = true;//初始化时U中只有u0一个元素
+	int i, j;
+	for (int i = 0; i < G.vexnum; i++)//初始化
+	{
+		if (i != u0)
+		{
+			lowcost[i] = G.Edge[u0][i];
+			closest[i] = u0;
+			s[i] = false;
+		}
+		else
+		{
+			lowcost[i] = 0;
+			closest[i] = -1;
+		}
+	}
+	for (i = 0; i < G.vexnum; i++)
+	{
+		int temp = INF;
+		int t = u0;
+		for (j = 0; j < G.vexnum; j++)//在集合U-V中寻找距离集合U最近的顶点t
+		{
+			if (s[j] != true && lowcost[j] < temp)
+			{
+				t = j;
+				temp = lowcost[j];
+			}
+		}
+		if (t == u0)
+			break;				//找不到t跳出循环
+		s[t] = true;			//如果找到了t则把t加入集合U
+		for (j = 0; j < G.vexnum; j++)								//更新lowcost和colsest
+		{
+			if (s[j] != true && G.Edge[t][j] < lowcost[j])
+			{
+				lowcost[j] = G.Edge[t][j];
+				closest[j] = t;
+			}
+		}
+	}
+	for (i = 0; i < G.vexnum; i++)
+		cout << closest[i]+1 << " ";
+	cout << endl;
+	for (i = 0; i < G.vexnum; i++)
+		cout << lowcost[i] << " ";
+	cout << endl;
+
+}
+
+void CreateAMNet_prim(AMGragh & G)
+{
+	int i, j;
+	VexType u, v;
+
+	G.vexnum = 7;
+	G.edgenum = 12;
+	VexType vex[7] = { '1','2','3','4','5','6','7' };
+	int edge[7][7] = { { INF,23,INF,INF,INF,28,36 },
+								{ 23,INF,20,INF,INF,INF,1 },
+								{ INF,20,INF,15,INF,INF,4 },
+								{ INF,INF,15,INF,3,INF,9 },
+								{ INF ,INF ,INF ,3,INF ,17,16},
+								{ 28,INF,INF,INF,17,INF,25 },
+								{ 36,1,4,9,16,25,INF } };
+
+	for (i = 0; i < G.vexnum; i++)//输入定点信息，存入定点信息数组
+		G.Vex[i] = vex[i];
+
+	for (i = 0; i < G.vexnum; i++)
+		for (j = 0; j < G.vexnum; j++)
+			G.Edge[i][j] = edge[i][j];
+}

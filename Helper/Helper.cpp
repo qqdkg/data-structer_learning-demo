@@ -9,7 +9,7 @@ using namespace std;
 int main()
 {
 	AMGragh G;
-	Floyd(G);
+	prim(0,G);
     return 0;
 
 }

@@ -92,4 +92,8 @@ void Floyd(AMGragh G);
 
 void CreateAMNet_Floyd(AMGragh & G);
 
+void prim(int u0,AMGragh G);
+
+void CreateAMNet_prim(AMGragh & G);
+
 #endif // GRAGH_H
