@@ -8,8 +8,8 @@ using namespace std;
 
 int main()
 {
-	AMGragh G;
-	prim(0,G);
+	ALGragh G;
+	TopologicalSort(G);
     return 0;
 
 }

@@ -115,7 +115,7 @@ void BFS_AM(AMGragh G, int v)
 	}
 }
 
-//创建又向邻接表
+//创建有向邻接表
 void CreateALGragh(ALGragh & G)
 {
 	int i, j;
@@ -534,4 +534,88 @@ void CreateAMNet_prim(AMGragh & G)
 	for (i = 0; i < G.vexnum; i++)
 		for (j = 0; j < G.vexnum; j++)
 			G.Edge[i][j] = edge[i][j];
+}
+
+bool TopologicalSort(ALGragh &G)
+{
+	//有向图G采用邻接链表的存储结构
+	//若G无回路则形成一个G的拓扑序列topo[]并返回true，若G有回路，侧返回false
+	CreateALGragh_Topo(G);														//创建有向图
+	int topo[6];
+	int i, m;
+	stack<int> S;
+	int inDegree[] = { 0,2,1,2,3,0 };
+	for (i = 0; i < G.vexnum; i++)
+	{
+		if (inDegree[i] == 0)
+			S.push(i);
+	}
+	m = 0;																					//输出项计数等于0
+	while (!S.empty())
+	{
+		i = S.top();
+		S.pop();
+		topo[m] = i;
+		m++;
+		AdjNode *p = G.Vex[i].first;												//p指向i的第一个邻接点
+		while (p)																			//i的所有邻接点入度减一
+		{
+			int k = p->v;																	//k为i的邻接点
+			--inDegree[k];																//为i的每一个邻接点入度减一
+			if (inDegree[k] == 0)
+				S.push(k);													//如果入度为0，则入栈
+			p = p->next;
+		}
+	}
+
+	for (int i = 0; i < G.vexnum; i++)
+		cout << topo[i] << " ";
+	cout << endl;
+
+	if (m < G.vexnum)
+		return false;																		//如果有向图有环形返回true
+	else
+		return true;
+}
+
+//创建有向邻接表
+void CreateALGragh_Topo(ALGragh & G)
+{
+	int i, j;
+	VexType u, v;
+	char vexch[] = { 'C0','C1','C2','C3','C4','C5' };
+	char edgech[] = { 'C0','C1','C0','C2','C0','C3','C2','C1','C2','C4','C3','C4','C5','C3','C5','C4' };
+
+	cout << "请输入顶点数和边数" << endl;
+	//cin >> G.vexnum >> G.edgenum;
+	G.vexnum = 6;
+	G.edgenum = 8;
+
+	cout << "请输入顶点信息" << endl;
+	for (i = 0; i < G.vexnum; i++)					//输入顶点信息，存储到顶点信息数组
+	{
+		//cin >> G.Vex[i].data;
+		G.Vex[i].data = vexch[i];
+	}
+	for (i = 0; i < G.vexnum; i++)
+	{
+		G.Vex[i].first = NULL;
+	}
+	cout << "依次输入每条边的两个顶点u,v" << endl;
+	int edgnum = G.edgenum;
+
+	int count = 0;
+	while (edgnum--) {
+		//cin >> u >> v;
+
+		u = edgech[count];
+		count++;
+		v = edgech[count];
+		count++;
+
+		i = locatevex(G, u);
+		j = locatevex(G, v);
+		if (i != -1 && j != -1)
+			insertedge(G, i, j);								//插入边，若为无向图，还需要插入一条边insertedge(G, j, i);
+	}
 }

@@ -96,4 +96,8 @@ void prim(int u0,AMGragh G);
 
 void CreateAMNet_prim(AMGragh & G);
 
+bool TopologicalSort(ALGragh &G);
+
+void CreateALGragh_Topo(ALGragh & G);
+
 #endif // GRAGH_H
