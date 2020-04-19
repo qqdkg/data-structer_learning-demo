@@ -166,12 +166,14 @@ int locatevex(ALGragh & G, VexType u)
 	return -1;
 }
 
-void insertedge(ALGragh & G, int i, int j)
+void insertedge(ALGragh & G, int i, int j,int weight)
 {
 	AdjNode *s;
 	s = new AdjNode;
 	s->v = j;
 	s->next = G.Vex[i].first;
+	if (weight != -1)
+		s->weight = weight;
 	G.Vex[i].first = s;
 }
 
@@ -536,15 +538,27 @@ void CreateAMNet_prim(AMGragh & G)
 			G.Edge[i][j] = edge[i][j];
 }
 
-bool TopologicalSort(ALGragh &G)
+bool TopologicalSort(ALGragh &G,int topo[])
 {
 	//有向图G采用邻接链表的存储结构
 	//若G无回路则形成一个G的拓扑序列topo[]并返回true，若G有回路，侧返回false
-	CreateALGragh_Topo(G);														//创建有向图
-	int topo[6];
+	ALGragh G_rev;
+	CreateALGragh_Topo(G,G_rev);														//创建有向图
+	int *inDegree = new int[G.vexnum];													//入度数组
 	int i, m;
 	stack<int> S;
-	int inDegree[] = { 0,2,1,2,3,0 };
+	int temp=0;																					//入度
+	for (int i = 0; i < G_rev.vexnum; i++)
+	{
+		AdjNode *p = G_rev.Vex[i].first;
+		while (p != NULL)
+		{
+			temp++;
+			p = p->next;
+		}
+		inDegree[i] = temp;
+		temp = 0;
+	}
 	for (i = 0; i < G.vexnum; i++)
 	{
 		if (inDegree[i] == 0)
@@ -571,40 +585,41 @@ bool TopologicalSort(ALGragh &G)
 	for (int i = 0; i < G.vexnum; i++)
 		cout << topo[i] << " ";
 	cout << endl;
-
 	if (m < G.vexnum)
 		return false;																		//如果有向图有环形返回true
 	else
 		return true;
 }
 
-//创建有向邻接表
-void CreateALGragh_Topo(ALGragh & G)
+//创建有向邻接表()
+void CreateALGragh_Topo(ALGragh & G, ALGragh & G_rev)
 {
 	int i, j;
 	VexType u, v;
-	char vexch[] = { 'C0','C1','C2','C3','C4','C5' };
-	char edgech[] = { 'C0','C1','C0','C2','C0','C3','C2','C1','C2','C4','C3','C4','C5','C3','C5','C4' };
+	char vexch[] = { 'V0','V1','V2','V3','V4','V5' };
+	char edgech[] = { 'V0','V1','V0','V2','V1','V3','V1','V4','V2','V1','V2','V4','V3','V5','V4','V5' };
+	int weight[] = {2,15,10,19,4,11,6,5};
 
 	cout << "请输入顶点数和边数" << endl;
-	//cin >> G.vexnum >> G.edgenum;
-	G.vexnum = 6;
-	G.edgenum = 8;
+	G_rev.vexnum=G.vexnum = 6;
+	G_rev.edgenum=G.edgenum = 8;
 
 	cout << "请输入顶点信息" << endl;
 	for (i = 0; i < G.vexnum; i++)					//输入顶点信息，存储到顶点信息数组
 	{
-		//cin >> G.Vex[i].data;
 		G.Vex[i].data = vexch[i];
+		G_rev.Vex[i].data = vexch[i];
 	}
 	for (i = 0; i < G.vexnum; i++)
 	{
 		G.Vex[i].first = NULL;
+		G_rev.Vex[i].first = NULL;
 	}
 	cout << "依次输入每条边的两个顶点u,v" << endl;
 	int edgnum = G.edgenum;
 
 	int count = 0;
+	int weight_count = 0;
 	while (edgnum--) {
 		//cin >> u >> v;
 
@@ -616,6 +631,70 @@ void CreateALGragh_Topo(ALGragh & G)
 		i = locatevex(G, u);
 		j = locatevex(G, v);
 		if (i != -1 && j != -1)
-			insertedge(G, i, j);								//插入边，若为无向图，还需要插入一条边insertedge(G, j, i);
+		{
+			insertedge(G, i, j,weight[weight_count]);								//插入边，若为无向图，还需要插入一条边insertedge(G, j, i);
+			weight_count++;
+			insertedge(G_rev, j,i);						//逆序图
+		}
 	}
+}
+
+void CriticalPath(ALGragh &G)
+{
+	int n, i, k, j, e, l;
+	int topo[6];
+	TopologicalSort(G, topo);
+	int *ve = new int[G.vexnum];					//每个事件的最早发生时间
+	int *vl = new int[G.vexnum];						//每个事件的最迟发生时间
+	n = G.vexnum;
+	for (i = 0; i < n; i++)
+		ve[i] = 0;
+	//按照拓扑顺序求每个事件的最早发生时间
+	for (i = 0; i < n; i++)
+	{
+		k = topo[i];											//获取拓扑序列中的定点序号k
+		AdjNode *p = G.Vex[k].first;					//p指向k的第一个邻接节点
+		while (p != NULL)									//依次更新k的所有邻接节点发生的最小时间
+		{
+			j = p->v;											//j为邻接节点的序号
+			if (ve[j] < ve[k] + p->weight)					//更新j的最早发生时间ve[j]
+				ve[j] = ve[k] + p->weight;
+			p = p->next;									//p指向k的下一个节点
+		}
+	}
+	for (i = 0; i < n; i++)									//给每个事件的最迟发生时间设置初值ve[n-1]
+	{
+		vl[i] = ve[n - 1];
+	}
+	//按照拓扑逆序求每个事件的最迟发生时间
+	for (i = n - 1; i >= 0; i--)
+	{
+		k = topo[i];											//获取逆序拓扑的定点序号k
+		AdjNode *p = G.Vex[k].first;					//p指向k的第一个邻接点
+		while (p != NULL)
+		{
+			j = p->v;
+			if (vl[k] > vl[j] - p->weight)				//更新顶点k的最迟发生时间vl[k]
+			{
+				vl[k] = vl[j] - p->weight;
+			}
+			p=p->next;
+		}
+	}
+	//判断每一项活动是否为关键活动
+	cout << "关键路径为:";
+	for (int i = 0; i < n; i++)
+	{
+		AdjNode *p = G.Vex[i].first;				//p指向i的第一个邻接点
+		while (p != NULL)
+		{
+			j = p->v;
+			e = ve[i];
+			l = vl[j] - p->weight;
+			if (e == l)
+				cout << "<" << G.Vex[i].data << "," << G.Vex[j].data << "> ";
+			p = p->next;
+		}
+	}
+	cout << endl;
 }

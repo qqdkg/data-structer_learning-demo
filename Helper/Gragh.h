@@ -25,6 +25,7 @@ void BFS_AM(AMGragh G, int v);
 //邻接表数据结构定义
 typedef struct AdjNode {//定义邻接点类型
 	int v;																//邻接点下标
+	int weight;
 	struct AdjNode *next;									//指向下一个邻接点
 }AdjNode;
 
@@ -46,7 +47,7 @@ void CreateALGragh(ALGragh &G);
 
 int locatevex(ALGragh &G, VexType u);
 
-void insertedge(ALGragh &G, int i, int j);
+void insertedge(ALGragh &G, int i, int j,int weight=-1);
 
 void ALGraghTest();
 
@@ -96,8 +97,10 @@ void prim(int u0,AMGragh G);
 
 void CreateAMNet_prim(AMGragh & G);
 
-bool TopologicalSort(ALGragh &G);
+bool TopologicalSort(ALGragh &G, int topo[]);
 
-void CreateALGragh_Topo(ALGragh & G);
+void CreateALGragh_Topo(ALGragh & G, ALGragh & G_rev);
+
+void CriticalPath(ALGragh &G);
 
 #endif // GRAGH_H

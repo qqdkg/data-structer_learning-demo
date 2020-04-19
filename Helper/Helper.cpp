@@ -9,8 +9,7 @@ using namespace std;
 int main()
 {
 	ALGragh G;
-	TopologicalSort(G);
+	CriticalPath(G);
     return 0;
-
 }
 
