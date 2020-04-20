@@ -3,13 +3,12 @@
 
 #include "stdafx.h"
 #include<iostream>
-#include"Gragh.h"
+#include"GreedySnake.h"
 using namespace std;
 
 int main()
 {
-	ALGragh G;
-	CriticalPath(G);
+	GreedySnakeTest();
     return 0;
 }
 

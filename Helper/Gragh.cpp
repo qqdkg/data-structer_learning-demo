@@ -683,16 +683,20 @@ void CriticalPath(ALGragh &G)
 	}
 	//判断每一项活动是否为关键活动
 	cout << "关键路径为:";
+	int next_num = 0;													//顺序遍历变量
 	for (int i = 0; i < n; i++)
 	{
-		AdjNode *p = G.Vex[i].first;				//p指向i的第一个邻接点
+		AdjNode *p = G.Vex[next_num].first;				//p指向i的第一个邻接点
 		while (p != NULL)
 		{
 			j = p->v;
-			e = ve[i];
+			e = ve[next_num];
 			l = vl[j] - p->weight;
 			if (e == l)
-				cout << "<" << G.Vex[i].data << "," << G.Vex[j].data << "> ";
+			{
+				cout << "<" << G.Vex[next_num].data << "," << G.Vex[j].data << "> ";
+				next_num = j;
+			}
 			p = p->next;
 		}
 	}

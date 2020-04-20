@@ -150,6 +150,7 @@
     <ClInclude Include="DuLinkList.h" />
     <ClInclude Include="DuQueue.h" />
     <ClInclude Include="Gragh.h" />
+    <ClInclude Include="GreedySnake.h" />
     <ClInclude Include="LinkQueue.h" />
     <ClInclude Include="LinkStack.h" />
     <ClInclude Include="sqList.h" />
@@ -164,6 +165,7 @@
     <ClCompile Include="DuLinkList.cpp" />
     <ClCompile Include="DuQueue.cpp" />
     <ClCompile Include="Gragh.cpp" />
+    <ClCompile Include="GreedySnake.cpp" />
     <ClCompile Include="Helper.cpp" />
     <ClCompile Include="LinkQueue.cpp" />
     <ClCompile Include="LinkStack.cpp" />
