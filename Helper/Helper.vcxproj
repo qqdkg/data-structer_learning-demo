@@ -145,6 +145,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AlgoGate.h" />
     <ClInclude Include="Btree.h" />
     <ClInclude Include="CallBackFunc.h" />
     <ClInclude Include="DuLinkList.h" />
@@ -161,6 +162,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AlgoGate.cpp" />
     <ClCompile Include="Btree.cpp" />
     <ClCompile Include="DuLinkList.cpp" />
     <ClCompile Include="DuQueue.cpp" />

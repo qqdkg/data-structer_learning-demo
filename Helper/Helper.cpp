@@ -3,12 +3,14 @@
 
 #include "stdafx.h"
 #include<iostream>
-#include"GreedySnake.h"
+#include "AlgoGAte.h"
 using namespace std;
 
 int main()
 {
-	GreedySnakeTest();
+	setMeet sm;
+	sm.init();
+	sm.solve();
     return 0;
 }
 
