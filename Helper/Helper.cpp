@@ -8,9 +8,8 @@ using namespace std;
 
 int main()
 {
-	setMeet sm;
-	sm.init();
-	sm.solve();
-    return 0;
+
+	TestDijkstra();
+	
 }
 

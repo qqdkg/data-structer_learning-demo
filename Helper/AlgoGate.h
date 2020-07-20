@@ -11,7 +11,6 @@ typedef struct MeetType {
 }MeetType;
 
 
-
 class setMeet {
 public:
 	void init();
@@ -21,6 +20,10 @@ private:
 	const int n = 10;
 };
 
+//2.5 ×î¶ÌÂ·¾¶
+void Dijkstra(int u);
+void TestDijkstra();
+void findPath(int u);
 
 
 
