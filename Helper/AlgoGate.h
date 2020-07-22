@@ -26,6 +26,10 @@ void TestDijkstra();
 void findPath(int u);
 
 
+//2.6 ¹ş·òÂü±àÂë
+
+
+
 
 
 

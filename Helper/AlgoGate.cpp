@@ -89,7 +89,7 @@ struct Node {
 	{
 		u = a;
 		step = sp;
-	}
+	} 
 	bool operator < (const Node &a) const {
 		return step > a.step;
 	}
@@ -184,4 +184,22 @@ void findPath(int u)
 		cout << "最短距离为：" << dist[i] << endl;
 	}
 }
+
+
+
+
+//2.6 哈夫曼编码
+typedef struct {
+	double weight;					//权值
+	int parent;							//双亲节点
+	int lchild;							//左孩子
+	int rchild;							//右孩子
+	char value;						//该节点表示的字符
+} HNodeType;
+
+typedef struct {
+
+
+} HCodeType;
+
 
