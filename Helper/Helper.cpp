@@ -8,8 +8,7 @@ using namespace std;
 
 int main()
 {
-
-	TestDijkstra();
+	HuffmanTest();
 	
 }
 

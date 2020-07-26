@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cstdio>
 #include <cstring>
+#include <cstdlib>
 #include <windows.h>
 #include <stack>
 #include <queue>
@@ -125,7 +126,7 @@ void Dijkstra(int st)
 
 void TestDijkstra()
 {
-	int u, v, w, st;
+	int st;
 	system("color 0d");
 	cout << "请输入城市个数" << endl;
 	n = 5;
@@ -189,17 +190,114 @@ void findPath(int u)
 
 
 //2.6 哈夫曼编码
-typedef struct {
-	double weight;					//权值
-	int parent;							//双亲节点
-	int lchild;							//左孩子
-	int rchild;							//右孩子
-	char value;						//该节点表示的字符
-} HNodeType;
+HNodeType HuffNode[MAXNODE];						//定义一个节点结构体数组
+HCodeType HuffCode[MAXLEAF];						//定义一个编码结构体数组
+void dkg_HuffmanTree(HNodeType HuffNode[MAXNODE], int n)
+{
+	/*i、j：循环变量,m1、m2：构造哈夫曼数不同过程中两个最小权值节点的权值
+	 *x1，x2：构造哈夫曼树不同过程中两个最小权值节点在数组中的序号。
+	*/
+	int i, j, x1, x2;
+	double m1, m2;
+	//初始化存放在哈夫曼树组HuffNode[]中的节点
+	for (i = 0; i < 2 * n - 1; i++)										//二叉树总结点数=叶子数*2-1
+	{
+		HuffNode[i].weight = 0;		//权值
+		HuffNode[i].parent = -1;
+		HuffNode[i].lchild = -1;
+		HuffNode[i].rchild = -1;
+	}
+	/*输入n个叶子结点权值*/
+	double weightArr[6] = {0.05 , 0.32 , 0.18 , 0.07 , 0.25 , 0.13};
+	char valueArr[6] = {'a' , 'b' , 'c' , 'd' , 'e' , 'f'};
+	for (i = 0; i < n; i++)
+	{
+		cout << "Please input value and weight of leaf node" << i + 1 << endl;
+		//cin >> HuffNode[i].value >> HuffNode[i].weight;
+		HuffNode[i].value = valueArr[i];
+		HuffNode[i].weight = weightArr[i];
+	}
 
-typedef struct {
+	/*构造哈夫曼树*/
+	for (i = 0; i < n - 1; i++)
+	{//执行n-1次合并
+		m1 = m2 = MAXVALUE;
+		/*m1 m2 用量存放两个无父节点且全职最小的两个节点的权值*/
+		x1 = x2 = -1;
+		/*找出所有节点中权值最小、无父节点的两个节点，并合并为一颗二叉树*/
+		for (j = 0; j < n + i; j++)
+		{
+			if (HuffNode[j].weight < m1 && HuffNode[j].parent == -1)
+			{
+				m2 = m1;
+				x2 = x1;
+				m1 = HuffNode[j].weight;
+				x1 = j;
+			}
+			else if (HuffNode[j].weight < m2 && HuffNode[j].parent == -1)
+			{
+				////私加 之后有问题的话删除
+				//m1 = m2;
+				//x1 = x1;
 
+				m2 = HuffNode[j].weight;
+				x2 = j;
+			}
+		}
+		/*设置两个子节点x1 x2 的父节点信息*/
+		HuffNode[x1].parent = n + i;
+		HuffNode[x2].parent = n + i;
+		HuffNode[n + i].weight = m1 + m2;
+		HuffNode[n + i].lchild = x1;
+		HuffNode[n + i].rchild = x2;
+		/*用于测试*/
+		cout << "X1.weight and x2.weight in round " << i + 1 << "\t" << HuffNode[x1].weight << "\t" << HuffNode[x2].weight << endl;
+	}
+}
 
-} HCodeType;
+void dkg_HuffmanCode(HCodeType HuffCode[MAXLEAF], int n)
+{
+	HCodeType cd;
+	int i, j, c, p;
+	for (i = 0; i < n; i++)
+	{
+		cd.start = n - 1;
+		c = i;
+		p = HuffNode[c].parent;
+		while (p != -1)
+		{
+			if (HuffNode[p].lchild == c)
+				cd.bit[cd.start] = 0;
+			else
+				cd.bit[cd.start] = 1;
+			cd.start--;						/*求编码低一位*/
+			c = p;
+			p = HuffNode[c].parent;			/*设置下一循环条件*/
+		}
+		/*把叶子结点的编码信息从临时编码cd中复制出来，放入编码节后体数组*/
+		for (j = cd.start + 1; j < n; j++)
+		{
+			HuffCode[i].bit[j] = cd.bit[j];
+		}
+		HuffCode[i].start = cd.start;
+	}
+}
 
+void HuffmanTest() 
+{
+	int i, j, n;
+	cout << "Please input n：" << endl;
+	//cin >> n;
+	n = 6;
+	dkg_HuffmanTree(HuffNode, n);
+	dkg_HuffmanCode(HuffCode, n);
+
+	for (i = 0; i < n; i++)
+	{
+		cout << HuffNode[i].value << "：Huffman code is：";
+		for (j = HuffCode[i].start + 1; j < n; j++)
+			cout << HuffCode[i].bit[j];
+		cout << endl;
+	}
+}
 
