@@ -51,6 +51,10 @@ void dkg_HuffmanTree(HNodeType HuffNode[MAXNODE], int n);
 void dkg_HuffmanCode(HCodeType HuffCode[MAXLEAF], int n);
 void HuffmanTest();
 
+//2.7最小生成树
+void primTest();
+void primTestAuto();
+
 
 
 

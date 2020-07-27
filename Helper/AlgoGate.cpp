@@ -11,6 +11,9 @@
 
 using namespace std;
 
+const int INF = 0x3fffffff;
+const int N = 100;
+
 
 
 //2.4高级钟点秘书问题
@@ -74,9 +77,6 @@ void setMeet::solve()
 
 
 //2.5最短路径
-
-const int N = 100;							//城市个数，可修改
-const int INF = 1e7;
 int map[N][N];
 int dist[N];
 int p[N];
@@ -300,4 +300,136 @@ void HuffmanTest()
 		cout << endl;
 	}
 }
+
+
+//2.7最小生成树
+bool s[N];
+int closest[N];
+int lowcost[N];
+
+void Prim(int n, int u0, int c[N][N])
+{
+	//顶点数n，开始顶点u0，带权邻接矩阵C[n][n]
+	//若s[i] == true,说明节点i已经加入最小生成树集合U，否则i属于集合V-U
+	//将最后相关的最小权值传递给数组lowcost[n]
+	s[u0] = true;
+	int i;
+	int j;
+
+	//初始化
+	for (i = 1; i <= n; i++)
+	{
+		if (i != u0)
+		{
+			lowcost[i] = c[u0][i];
+			closest[i] = u0;
+		}
+		else
+			closest[i] = 0;
+	}
+	for (i = 1; i <= n; i++)
+	{
+		int temp = INF;
+		int t = u0;
+		//在集合V-U中寻找距离集合U最近的顶点t
+		for (j = 1; j <= n; j++)
+		{
+			if ((!s[j]) && (lowcost[j] < temp))
+			{
+				t = j;
+				temp = lowcost[j];
+			}
+		}
+		if (t == u0)				//未找到t
+			break;
+		s[t] = true;				//否则将t加入集合U
+									//更新closest[n]和lowcost[n]数组
+		for (j = 1; j <= n; j++)
+		{
+			if ((!s[j]) && (c[t][j] < lowcost[j]))
+			{
+				lowcost[j] = c[t][j];
+				closest[j] = t;
+			}
+		}//for j
+	}//for i
+}//prim
+
+void primTest()
+{
+	int n, c[N][N], m, u, v, w;
+	int u0;
+	cout << "输入节点数n和边数m：" << endl;
+	cin >> n >> m;
+	int sumcost = 0;
+	for (int i = 1; i <= n; i++)
+		for (int j = 1; j <= n; j++)
+			c[i][j] = INF;
+	cout << "输入节点值 u v 和边值w：" << endl;
+	for (int i = 1; i <= m; i++)
+	{
+		cin >> u >> v >> w;
+		c[u][v] = c[v][u] = w;
+	}
+	cout << "输入任一节点u0:" << endl;
+	cin >> u0;
+	//计算最后的lowcost总和，既为最后所求的最小费用之和
+	Prim(n, u0, c);
+	cout << "数组lowcost的内容为：" << endl;
+	for (int i = 1; i <= n; i++)
+	{
+		cout << lowcost[i] << " ";
+	}
+	cout << endl;
+	for (int i = 1; i <= n; i++)
+		sumcost += lowcost[i];
+	cout << "最小花费为：" << sumcost << endl << endl;
+}
+
+void primTestAuto()
+{
+	int n, c[N][N], m, u, v, w;
+	int u0;
+	int uArr[12] = { 1,  1,  1,  2,  2,3, 3,4,4,5,  5,  6};
+	int vArr[12] = { 2,  6,  7,  3,  7,4, 7,5,7,6,  7,  7};
+	int wArr[12] = {23,28,36,20,1,15,4,3,9,17,16,25};
+	cout << "输入节点数n和边数m：" << endl;
+	//cin >> n >> m;
+	
+	n = 7;
+	m = 12;
+	cout << n << ' ' << m << endl;
+
+	int sumcost = 0;
+	for (int i = 1; i <= n; i++)
+		for (int j = 1; j <= n; j++)
+			c[i][j] = INF;
+	cout << "输入节点值 u v 和边值w：" << endl;
+	for (int i = 1; i <= m; i++)
+	{
+		//cin >> u >> v >> w;
+		//c[u][v] = c[v][u] = w;
+		c[uArr[i-1]][vArr[i-1]] = c[vArr[i-1]][uArr[i-1]] = wArr[i-1];
+		cout << uArr[i - 1] << ' ' << vArr[i - 1] << ' ' << wArr[i - 1] << endl;
+	}
+	cout << "输入任一节点u0:" << endl;
+	//cin >> u0;
+
+	u0 = 1;
+	cout << u0 << endl;
+
+	//计算最后的lowcost总和，既为最后所求的最小费用之和
+	Prim(n, u0, c);									//创建最小生成树
+	cout << "数组lowcost的内容为：" << endl;
+	for (int i = 1; i <= n; i++)
+	{
+		cout << lowcost[i] << " ";
+	}
+	cout << endl;
+	for (int i = 1; i <= n; i++)
+		sumcost += lowcost[i];
+	cout << "最小花费为：" << sumcost << endl << endl;
+}
+
+
 
