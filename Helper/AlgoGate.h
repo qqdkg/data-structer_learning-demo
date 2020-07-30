@@ -55,6 +55,9 @@ void HuffmanTest();
 void primTest();
 void primTestAuto();
 
+void KruskalTest();
+void KruskalTestAuto();
+
 
 
 

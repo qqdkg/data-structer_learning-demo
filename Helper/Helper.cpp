@@ -8,7 +8,8 @@ using namespace std;
 
 int main()
 {
-	primTestAuto();
+	KruskalTestAuto();
+	//primTestAuto();
 	
 }
 

@@ -388,7 +388,8 @@ void primTest()
 
 void primTestAuto()
 {
-	int n, c[N][N], m, u, v, w;
+	int n, c[N][N], m;
+	//int u, v, w
 	int u0;
 	int uArr[12] = { 1,  1,  1,  2,  2,3, 3,4,4,5,  5,  6};
 	int vArr[12] = { 2,  6,  7,  3,  7,4, 7,5,7,6,  7,  7};
@@ -430,6 +431,128 @@ void primTestAuto()
 		sumcost += lowcost[i];
 	cout << "最小花费为：" << sumcost << endl << endl;
 }
+
+//Kruskal方法
+int nodeset[N];
+int father[N];
+
+struct Edge {
+	int u;
+	int v;
+	int w;
+}e[N*N];
+
+bool cmpEdge(Edge x, Edge y)
+{
+	return x.w < y.w;				//排序优先级，按照边的权值从小到大
+}
+
+void NodesetInit(int n)
+{
+	for (int i = 1; i <= n; i++)
+		nodeset[i] = i;
+}
+
+void FatherInit(int n)
+{
+	for (int i = 1; i <= n; i++)
+		father[i] = i;							//初始化所属集合号，初始化每个顶点一个集合号
+}
+
+int Find(int x)								//找宗祖
+{
+	if (x != father[x])
+		father[x] = Find(father[x]);		//把当前节点到其宗祖节点路径上的搜有节点的集合号改为宗组节点的集合号
+	return father[x];
+}
+
+int Merge(int a, int b, int n)
+{
+	int p = nodeset[a];
+	int q = nodeset[b];
+	
+	if (p == q)
+		return 0;
+	for (int i = 1; i <= n; i++)//检查所有节点，把q改成p
+	{
+		if (nodeset[i] == q)
+			nodeset[i] = p;			//a的集合号赋值给p
+	}
+	return 1;
+}
+
+int Merge_father(int a, int b, int n)
+{
+	int p = Find(a);				//找a的集合号
+	int q = Find(b);				//找b的集合号
+	if (p == q)
+		return 0;
+	if (p > q)
+		father[p] = q;
+	else
+		father[q] = p;
+	return 1;
+}
+
+
+int Kruskal(int n, int m)
+{
+	int ans = 0;
+	const int const_n = n;							//这个n不应该发生变化
+	for (int i = 0; i < m; i++)
+	{
+		if (Merge_father(e[i].u, e[i].v, const_n))
+		{
+			ans += e[i].w;
+			n--;
+			if (n == 1)
+				return ans;
+		}
+	}
+	return 0;
+}
+
+void KruskalTest()
+{
+	int n, m;
+	cout << "输入节点数n和边数m：" << endl;
+	cin >> n >> m;
+	FatherInit(n);
+	cout << "输入u、v和边值w：" << endl;
+	for (int i = 0; i < m; i++)
+		cin >> e[i].u >> e[i].v >> e[i].w;
+	sort(e, e + m, cmpEdge);
+	int ans = Kruskal(n, m);
+	cout << "最小花费为：" << ans << endl;
+}
+
+void KruskalTestAuto()
+{
+	int n, m;
+	int uArr[12] = { 1,  1,  1,  2,  2,3, 3,4,4,5,  5,  6 };
+	int vArr[12] = { 2,  6,  7,  3,  7,4, 7,5,7,6,  7,  7 };
+	int wArr[12] = { 23,28,36,20,1,15,4,3,9,17,16,25 };
+	cout << "输入节点数n和边数m：" << endl;
+	//cin >> n >> m;
+	n = 7;
+	m = 12;
+	cout << n << " " << m << endl;
+	FatherInit(n);
+	cout << "输入u、v和边值w：" << endl;
+	for (int i = 0; i < m; i++)
+	{
+		//cin >> e[i].u >> e[i].v >> e[i].w;
+		e[i].u = uArr[i];
+		e[i].v = vArr[i];
+		e[i].w = wArr[i];
+		cout << e[i].u << " " << e[i].v << " " << e[i].w << endl;
+	}
+	sort(e, e + m, cmpEdge);
+	int ans = Kruskal(n, m);
+	cout << "最小花费为：" << ans << endl;
+}
+
+
 
 
 
