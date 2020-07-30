@@ -3,13 +3,13 @@
 
 #include "stdafx.h"
 #include<iostream>
-#include "AlgoGAte.h"
+#include "Chapter3.h"
 using namespace std;
 
 int main()
 {
-	KruskalTestAuto();
-	//primTestAuto();
-	
+	BinarySearchTank BST;
+	BST.BinarySearchTestRec();
+	return 0;
 }
 

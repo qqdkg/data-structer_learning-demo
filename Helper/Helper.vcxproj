@@ -148,6 +148,7 @@
     <ClInclude Include="AlgoGate.h" />
     <ClInclude Include="Btree.h" />
     <ClInclude Include="CallBackFunc.h" />
+    <ClInclude Include="Chapter3.h" />
     <ClInclude Include="DuLinkList.h" />
     <ClInclude Include="DuQueue.h" />
     <ClInclude Include="Gragh.h" />
@@ -164,6 +165,7 @@
   <ItemGroup>
     <ClCompile Include="AlgoGate.cpp" />
     <ClCompile Include="Btree.cpp" />
+    <ClCompile Include="Chapter3.cpp" />
     <ClCompile Include="DuLinkList.cpp" />
     <ClCompile Include="DuQueue.cpp" />
     <ClCompile Include="Gragh.cpp" />
