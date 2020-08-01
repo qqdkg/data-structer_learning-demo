@@ -33,6 +33,7 @@ private:
 	int R[1000];
 	int n;
 	int partition(int r[], int low, int high);
+	int partition2(int r[], int low, int high);
 public:
 	void QuickSort(int R[], int low, int high);
 	void QuickSortTest();

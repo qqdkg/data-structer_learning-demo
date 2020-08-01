@@ -166,12 +166,33 @@ int QuickSortTank::partition(int r[], int low, int high)
 	return i;																//返回最终完成划分之后的基准元素所在位置
 }
 
+int QuickSortTank::partition2(int r[], int low, int high)
+{
+	int i = low, j = high, privot = r[low];
+	while (i < j)
+	{
+		while (i < j && r[j] > privot)								//向左扫描
+			j--;
+		while (i < j && r[i] < privot)								//向右扫描
+			i++;
+		if (i < j)
+			swap(r[i++], r[j--]);
+	}
+	if (r[i] > privot)
+	{
+		swap(r[i - 1], r[low]);
+		return i - 1;
+	}
+	swap(r[i], r[low]);
+	return i;
+}
+
 void QuickSortTank::QuickSort(int R[], int low, int high)
 {
 	int mid;
 	if (low < high)
 	{
-		mid = partition(R, low, high);								//基准位置
+		mid = partition2(R, low, high);								//基准位置
 		QuickSort(R, low, mid - 1);									//左侧区间快速排序
 		QuickSort(R, mid + 1, high);									//右侧区间快速排序
 	}
