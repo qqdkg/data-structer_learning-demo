@@ -40,6 +40,25 @@ public:
 };
 
 
+//3.4 大数乘法
+#define M	100
+typedef struct BigNumNode{
+	int s[M];
+	int l;									//长度
+	int c;									//幂数
+} Node,*pNode;
+
+class BigNumMulTank {
+private:
+	char sa[1000];
+	char sb[1000];
+	void cp(pNode src, pNode des, int st, int l);
+	void add(pNode pa, pNode pb, pNode ans);
+	void mul(pNode pa, pNode pb, pNode ans);
+public:
+	void BigNumMulTest();
+};
+
 
 
 

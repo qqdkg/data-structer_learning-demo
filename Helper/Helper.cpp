@@ -8,8 +8,8 @@ using namespace std;
 
 int main()
 {
-	QuickSortTank QST;
-	QST.QuickSortTest();
+	BigNumMulTank BNMT;
+	BNMT.BigNumMulTest();
 	return 0;
 }
 
