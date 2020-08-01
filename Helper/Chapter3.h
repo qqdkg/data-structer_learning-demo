@@ -15,6 +15,29 @@ public:
 	void BinarySearchTestRec();
 };
 
+//3.3 合并排序
+class MergeSortTank
+{
+private:
+	int n;
+	int A[100];
+	void Merge(int A[], int low, int mid, int high);
+public:
+	void MergeSort(int A[], int low, int high);
+	void MergeSortTest();
+};
+
+//3.3 快速排序
+class QuickSortTank {
+private:
+	int R[1000];
+	int n;
+	int partition(int r[], int low, int high);
+public:
+	void QuickSort(int R[], int low, int high);
+	void QuickSortTest();
+};
+
 
 
 

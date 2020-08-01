@@ -8,8 +8,8 @@ using namespace std;
 
 int main()
 {
-	BinarySearchTank BST;
-	BST.BinarySearchTestRec();
+	QuickSortTank QST;
+	QST.QuickSortTest();
 	return 0;
 }
 
