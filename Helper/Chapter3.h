@@ -60,6 +60,21 @@ public:
 };
 
 
+//4.3 最长公共子序列
+class LCSTank {
+private:
+	static const int N = 100;
+	int c[N][N];
+	int b[N][N];
+	char s1[N];
+	char s2[N];
+	int len1, len2;
+	void LCSL();
+	void print(int i, int j);
+public:
+	void printTest();
+} ;
+
 
 
 

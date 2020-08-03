@@ -8,8 +8,8 @@ using namespace std;
 
 int main()
 {
-	BigNumMulTank BNMT;
-	BNMT.BigNumMulTest();
+	LCSTank LCST;
+	LCST.printTest();
 	return 0;
 }
 
