@@ -406,5 +406,73 @@ void LCSTank::printTest()
 	cout << endl;
 }
 
+//4.4 编辑距离
+int EditDistanceTank::min(int a, int b)
+{
+	return a < b ? a : b;
+}
 
+int EditDistanceTank::editdistance(char * str1, char * str2)
+{
+	int len1 = strlen(str1);
+	int len2 = strlen(str2);
+	for (int i = 0; i <= len1; i++)
+		d[i][0] = i;												//初始化第0列
+	for (int j = 0; j <= len2; j++)
+		d[0][j] = j;												//初始化第0列
 
+	for (int i = 1; i <= len1; i++)
+		for (int j = 1; j <= len2; j++)					//遍历两个字符串
+		{
+			int diff;												//用于判断str1[i] 与 str2[j]是否相等，相等为0，不等为1
+			if (str1[i - 1] == str2[j - 1])
+				diff = 0;
+			else
+				diff = 1;
+			int temp = min(d[i - 1][j] + 1, d[i][j - 1] + 1);
+			d[i][j] = min(temp, d[i - 1][j - 1] + diff);										
+																	//这是由子问题分析得到的递推操作，想不起来可以看去学算法4.4
+			
+			if (d[i][j] == d[i - 1][j - 1] + diff)		//个点行为
+				p[i][j] = 3;										//行为为向左上
+			else if (d[i][j] == d[i - 1][j] + 1)
+				p[i][j] = 2;										//行为为向上
+			else
+				p[i][j] = 1;										//行为为向左
+		}
+	return d[len1][len2];
+}
+
+void EditDistanceTank::print(int i, int j)
+{
+	if (i == 0 || j == 0)
+		return;
+
+	if (p[i][j] == 1)
+	{
+		cout << "向左" << " ";
+		print(i, j - 1);
+	}
+	else if (p[i][j] == 2)
+	{
+		cout << "向上" << " ";
+		print(i - 1, j);
+	}
+	else
+	{
+		cout << "向左上" << " ";
+		print(i - 1, j - 1);
+	}
+}
+
+void EditDistanceTank::editDistanceTest()
+{
+	cout << "请输入字符串str1：" << endl;
+	cin >> str1;
+	cout << "请输入字符串str2：" << endl;
+	cin >> str2;
+	cout << str1 << "和" << str2 << "的编辑距离为：" << editdistance(str1, str2) << endl;
+	cout << "最优解行为：" << endl;
+	print(strlen(str1), strlen(str2));
+	cout << endl;
+}

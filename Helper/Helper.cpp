@@ -8,8 +8,8 @@ using namespace std;
 
 int main()
 {
-	LCSTank LCST;
-	LCST.printTest();
+	EditDistanceTank EDT;
+	EDT.editDistanceTest();
 	return 0;
 }
 
