@@ -8,8 +8,8 @@ using namespace std;
 
 int main()
 {
-	EditDistanceTank EDT;
-	EDT.editDistanceTest();
+	RentBoatTank RBT;
+	RBT.RentBoatTest();
 	return 0;
 }
 

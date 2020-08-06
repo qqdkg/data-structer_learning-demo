@@ -476,3 +476,63 @@ void EditDistanceTank::editDistanceTest()
 	print(strlen(str1), strlen(str2));
 	cout << endl;
 }
+
+void RentBoatTank::rent()
+{
+	int i, j, k, d;
+	for (d = 3; d <= n; d++)
+	{
+		for (i = 1; i <= n - d + 1; i++)
+		{
+			j = i + d - 1;
+			for (k = i + 1; k < j; k++)
+			{
+				int temp;
+				temp = m[i][k] + m[k][j];
+				if (temp < m[i][j])
+				{
+					m[i][j] = temp;
+					s[i][j] = k;
+				}
+			}
+		}
+	}
+}
+
+void RentBoatTank::print(int i, int j)
+{
+	if (s[i][j] == 0)
+	{
+		cout << "--" << j;
+		return;
+	}
+	print(i, s[i][j]);
+	print(s[i][j], j);
+}
+
+void RentBoatTank::RentBoatTest()
+{
+	int i, j;
+	int rArr[] = {2, 6, 9, 15, 20, 3, 5, 11, 18, 3, 6, 12, 5, 8, 6};
+	int rCount = 0;
+	cout << "请输入站点个数n：";
+	//cin >> n;
+	n = 6;
+	cout << n << endl;
+
+	cout << "请依次输入各站点间的租金：" << endl;
+	for(i = 1; i <=n; i++)
+		for (j = i + 1; j <= n; ++j)
+		{
+			//cin >> r[i][j];
+			r[i][j] = rArr[rCount++];
+			cout << r[i][j] << " ";
+			m[i][j] = r[i][j];
+			s[i][j] = 0;
+		}
+	cout << endl;
+	rent();
+	cout << "花费的最少租金为：" << m[1][n] << endl;
+	cout << "最少租金经过站点：" << 1;
+	print(1, n);
+}

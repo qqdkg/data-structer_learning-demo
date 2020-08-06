@@ -83,12 +83,25 @@ private:
 	int d[N][N];									//用来表示str1第i个字符和str2第j个字符之间的编辑距离
 	int p[N][N];									//路线记录矩阵，p代表path，用于反推行为
 	int min(int a, int b);
-public:
 	int editdistance(char *str1, char *str2);
-	void print(int i,int j);
+	void print(int i, int j);
+public:
 	void editDistanceTest();
 };
 
+//4.5 游艇租赁问题
+class RentBoatTank {
+private:
+	static const int ms = 100;
+	int r[ms][ms];
+	int m[ms][ms];
+	int s[ms][ms];
+	int n;												//共有n个站点
+	void rent();
+	void print(int i, int j);
+public:
+	void RentBoatTest();
+};
 
 
 
