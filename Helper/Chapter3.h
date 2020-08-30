@@ -103,6 +103,49 @@ public:
 	void RentBoatTest();
 };
 
+//4.6 矩阵连乘问题
+class MatrixChainTank {
+private:
+	static const int msize = 100;
+	int p[msize];
+	int m[msize][msize], s[msize][msize];
+	int n;
+	void matrixchain();
+	void print(int i, int j);
+public:
+	void MatrixChainTest();
+};
+
+//4.7 最优三角剖分
+class TrangleDivideTank {
+private:
+    static const int misze = 100;
+	int n;
+	int m[misze][misze], g[misze][misze];
+	int s[misze][misze];
+	void trangleDivide();
+	void print(int i, int j);
+public:
+	void trangleDivideTest();
+};
+
+//4.8 石子合并
+class CombineStoneTank {
+private:
+	static const int INF = 1 << 30;
+	static const int N = 205;
+	int Min[N][N];
+	int Max[N][N];
+	int sum[N];
+	int a[N];
+	int min_Circular, max_Circular;
+	void straight(int a[], int n);
+	void Circular(int a[], int n);
+public:
+	void CSTTest();
+};
+
+
 
 
 #endif // !__CHAPTER3_H

@@ -26,7 +26,6 @@ void createtree1(Btree & T)
 		createtree1(T->rchild);
 	else
 		T->rchild = NULL;
-
 }
 
 //²¹¿Õ·¨

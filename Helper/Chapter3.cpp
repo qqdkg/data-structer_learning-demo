@@ -536,3 +536,187 @@ void RentBoatTank::RentBoatTest()
 	cout << "最少租金经过站点：" << 1;
 	print(1, n);
 }
+
+void MatrixChainTank::matrixchain()
+{
+	int i, j, r, k;
+	memset(m, 0, sizeof(m));
+	memset(s, 0, sizeof(s));
+	for (r = 2; r <= n; r++)							//不同规模的子问题
+	{
+		for (i = 1; i <= n - r + 1; i++)
+		{
+			j = i + r - 1;
+			m[i][j] = m[i + 1][j] + p[i - 1] * p[i] * p[j];							//决策为k == i的乘法次数
+			s[i][j] = i;
+			for (k = i + 1; k < j; k++)
+			{
+				int t = m[i][k] + m[k + 1][j] + p[i - 1] * p[k] * p[j];
+				if (t < m[i][j])
+				{
+					m[i][j] = t;
+					s[i][j] = k;
+				}//if
+			}//for k
+		}//for i
+	}//for r
+}
+
+void MatrixChainTank::print(int i, int j)
+{
+	if (i == j)
+	{
+		cout << "A[" << i << "]";
+		return;
+	}
+	cout << "(";
+	print(i, s[i][j]);
+	print(s[i][j] + 1, j);
+	cout << ")";
+}
+
+void MatrixChainTank::MatrixChainTest()
+{
+	cout << "请输入矩阵个数n：";
+	cin >> n;
+	cout << "请依次输入每个矩阵的行数和最后一个矩阵的列数：" << endl;
+	for (int i = 0; i <= n; i++)
+		cin >> p[i];
+	matrixchain();
+	print(1, n);
+	cout << endl;
+	cout << "最小计算量的值为：" << m[1][n] << endl;
+}
+
+void TrangleDivideTank::trangleDivide()
+{
+	for (int i = 1; i <= n; i++)
+	{
+		for (int j = 1; j <= n; j++)
+		{
+			m[i][j] = 0;
+			s[i][j] = 0;
+		}
+	}
+	for (int d = 2; d <= n; d++)									//d代表问题规模，d == 2时实际上表示三个点因为m[i][j]表示{Vi-1.Vi,Vj}
+		for (int i = 1; i <= n - d + 1; i++)
+		{
+			int j = i + d - 1;
+			m[i][j] = m[i + 1][j] + g[i - 1][i] + g[i][j] + g[i - 1][j];						//用m[i][j]可能的最大值作为初值
+			s[i][j] = i;
+			for (int k = i + 1; k < j; k++)
+			{
+				double temp = m[i][k] + m[k + 1][j] + g[i - 1][k] + g[i - 1][j] + g[k][j];
+				if (m[i][j] > temp)
+				{
+					m[i][j] = temp;																		//更新最优数值
+					s[i][j] = k;																				//记录策略
+				}
+			}//for k
+		}// for i
+}
+
+void TrangleDivideTank::print(int i, int j)
+{
+	if (i == j) return;
+	if (s[i][j] > i)
+		cout << "{v" << i - 1 << "v" << s[i][j] << "}" << endl;
+	if (j > s[i][j] + 1)
+		cout << "{v" << s[i][j] << "v" << j << "}" << endl;
+	print(i, s[i][j]);
+	print(s[i][j] + 1, j);
+}
+
+void TrangleDivideTank::trangleDivideTest()
+{
+	int i, j;
+	int gMat[6][6] = { {0, 2, 3, 1, 5, 6},
+								{2, 0, 3, 4, 8, 6},
+								{3, 3, 0, 10, 13, 7},
+								{1, 4, 10, 0, 12, 5},
+								{5, 8, 13, 12, 0, 3},
+								{6, 6, 7, 5, 3, 0} };
+
+	cout << "请输入顶点个数n：";
+	//cin >> n;
+	n = 6;
+	cout << n << endl;
+	n--;
+	cout << "请依次输入各顶点链接权值：" << endl;
+	for (int i = 0; i <= n; i++)
+	{
+		for (int j = 0; j <= n; j++)
+		{
+			//cin >> g[i][j];
+			g[i][j] = gMat[i][j];
+			cout << g[i][j] << " ";
+		}
+		cout << endl;
+	}
+	trangleDivide();
+	cout << m[1][n] << endl;
+	print(1, n);
+}
+
+void CombineStoneTank::straight(int a[], int n)
+{
+	for (int i = 1; i <= n; i++)							//初始化
+	{
+		Min[i][i] = 0;
+		Max[i][i] = 0;
+	}
+	sum[0] = 0;
+	for (int i = 1; i <= n; i++)
+		sum[i] = sum[i - 1] + a[i];
+	for (int v = 2; v <= n; v++)						//枚举合并堆数的规模
+	{
+		for (int i = 1; i <= n - v + 1; i++)			//枚举起点i
+		{
+			int j = i + v - 1;									//枚举终点j
+			Min[i][j] = INF;									//初始化为最大值
+			Max[i][j] = -1;									//初始化为-1
+			int temp = sum[j] - sum[i - 1];			//记录i...j之间的石子数目之和
+			for (int k = i; k < j; k++)					//枚举中间分隔点
+			{
+				Min[i][j] = min(Min[i][j], Min[i][k] + Min[k + 1][j] + temp);
+				Max[i][j] = max(Max[i][j], Max[i][k] + Max[k + 1][j] + temp);
+			}//for k
+		}//for i
+	}//for v
+}
+
+void CombineStoneTank::Circular(int a[], int n)
+{
+	for (int i = 1; i <= n - 1; i++)
+		a[n + i] = a[i];
+	n = 2 * n - 1;
+	straight(a, n);
+	n = (n + 1) / 2;
+	min_Circular = Min[1][n];
+	max_Circular = Max[1][n];
+	for (int i = 2; i <= n; i++)
+	{
+		if (Min[i][n + i - 1] < min_Circular)
+			min_Circular = Min[i][n + i - 1];
+		if (Max[i][n + i - 1] > max_Circular)
+			max_Circular = Max[i][n + i - 1];
+	}
+}
+
+void CombineStoneTank::CSTTest()
+{
+	int n;
+	cout << "请输入石子堆数n" << endl;
+	cin >> n;
+	cout << "请输入各堆的石子数目" << endl;
+	for (int i = 1; i <= n; i++)
+		cin >> a[i];
+	straight(a, n);
+	cout << "路边玩法（直线型）的最小花费为：" << Min[1][n] << endl;
+	cout << "路边玩法（直线型）的最大花费为：" << Max[1][n] << endl;
+	Circular(a, n);
+	cout << "操场玩法（圆形）的最小花费为：" << min_Circular << endl;
+	cout << "操场玩法（圆形）的最大花费为：" << max_Circular << endl;
+}
+
+
