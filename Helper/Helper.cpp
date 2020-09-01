@@ -8,8 +8,8 @@ using namespace std;
 
 int main()
 {
-	CombineStoneTank CST;
-	CST.CSTTest();
+	CombineStoneTankPro CSTP;
+	CSTP.CSTPTest();
 	return 0;
 }
 

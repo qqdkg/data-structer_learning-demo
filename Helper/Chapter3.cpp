@@ -719,4 +719,90 @@ void CombineStoneTank::CSTTest()
 	cout << "操场玩法（圆形）的最大花费为：" << max_Circular << endl;
 }
 
+void CombineStoneTankPro::Get_Min(int n)
+{
+	for (int v = 2; v <= n; v++)											//枚举合并的堆数规模v
+	{
+		for (int i = 1; i <= n - v + 1; i++)								//枚举起始点i
+		{
+			int j = i + v - 1;														//枚举终点
+			int temp = sum[j] - sum[i - 1];								//记录i...j之间的石子数目之和
+			int i1 = s[i][j - 1] > i ? s[i][j - 1] : i;
+			int j1 = s[i + 1][j] < j ? s[i + 1][j] : j;
+			Min[i][j] = Min[i][i1] + Min[i1 + 1][j];
+			s[i][j] = i1;
+			for (int k = i1 + 1; k <= j1; k++)
+			{
+				if (Min[i][k] + Min[k + 1][j] < Min[i][j])
+				{
+					Min[i][j] = Min[i][k] + Min[k + 1][j];
+					s[i][j] = k;
+				}
+			}//for k
+			Min[i][j] += temp;
+		}//for i
+	}//for v
+}
+
+void CombineStoneTankPro::Get_Max(int n)
+{
+	for (int v = 2; v <= n; v++)											//枚举合并的堆数规模
+	{
+		for (int i = 1; i <= n - v + 1; i++)
+		{
+			int j = i + v - 1;														//枚举终点
+			Max[i][j] = -1;														//初始化为-1
+			int temp = sum[j] - sum[i - 1];								//记录i...j之间的石子数目之和
+			if (Max[i + 1][j] > Max[i][j - 1])
+				Max[i][j] = Max[i + 1][j] + temp;
+			else
+				Max[i][j] = Max[i][j - 1] + temp;
+		}//for i
+	}	//for v
+}
+
+void CombineStoneTankPro::straight(int a[], int n)
+{
+	for (int i = 1; i <= n; i++)
+		Min[i][i] = 0, Max[i][i] = 0, s[i][i] = 0;
+	sum[0] = 0;
+	for (int i = 1; i <= n; i++)
+		sum[i] = sum[i - 1] + a[i];
+	Get_Min(n);
+	Get_Max(n);
+}
+
+void CombineStoneTankPro::Circular(int a[], int n)
+{
+	for (int i = 1; i <= n - 1; i++)
+		a[n + i] = a[i];
+	n = 2 * n - 1;
+	straight(a, n);
+	n = (n + 1) / 2;
+	min_Circular = Min[1][n];
+	max_Circular = Max[1][n];
+	for (int i = 2; i <= n; i++)
+	{
+		if (Min[i][i + n - 1] < min_Circular)
+			min_Circular = Min[i][i + n - 1];
+		if (Max[i][n + i - 1] > max_Circular)
+			max_Circular = Max[i][n + i - 1];
+	}
+}
+
+void CombineStoneTankPro::CSTPTest()
+{
+	int n;
+	cout << "请输入石子的堆数：" << endl;
+	cin >> n;
+	cout << "输入各堆石子个数：" << endl;
+	for (int i = 1; i <= n; i++)
+		cin >> a[i];
+	straight(a, n);
+	cout << "路边玩法（直线型）最小花费：" << Min[1][n] << endl;
+	cout << "路边玩法（直线型）最小花费：" << Max[1][n] << endl;
+	Circular(a, n);
+	cout << "操场玩法（圆型）最小花费：" << min_Circular << endl;
+	cout << "操场玩法（圆型）最大花费：" << max_Circular << endl;
+}
 

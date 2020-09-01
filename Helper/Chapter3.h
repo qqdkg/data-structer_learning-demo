@@ -145,6 +145,25 @@ public:
 	void CSTTest();
 };
 
+//使用了四边不等式优化的结果
+class CombineStoneTankPro {
+private:
+	static const int INF = 1 << 30;
+	static const int N = 205;
+	int Min[N][N];
+	int Max[N][N];
+	int s[N][N];
+	int sum[N];
+	int a[N];
+	int min_Circular, max_Circular;
+	void Get_Min(int n);
+	void Get_Max(int n);
+	void straight(int a[], int n);
+	void Circular(int a[], int n);
+public:
+	void CSTPTest();
+};
+
 
 
 
