@@ -164,6 +164,20 @@ public:
 	void CSTPTest();
 };
 
+//4.9 零、一背包问题
+class ZeroOnePackageTank {
+private:
+	static const int maxn = 1000;
+	static const int size = 105;
+	int c[size][maxn];													//C[i][j] 表示i个物品放入容量为j的购物车可以获得的最大价值
+	int w[size], v[size];													//w[i]描述第i件物品的重量，v[i]描述第i件物品的价值
+	int x[size];																//x[i] 描述第i件物品是否放入购物车
+	int dp[maxn];														//dp[j]表示当前已放入容量为j的购物车的获得的最大价值，用于减小空间复杂度的
+	void opt3(int n, int W);
+public:
+	void ZOPTestNormal();
+	void ZOPTestPro();
+};
 
 
 

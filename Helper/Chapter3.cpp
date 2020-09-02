@@ -629,7 +629,6 @@ void TrangleDivideTank::print(int i, int j)
 
 void TrangleDivideTank::trangleDivideTest()
 {
-	int i, j;
 	int gMat[6][6] = { {0, 2, 3, 1, 5, 6},
 								{2, 0, 3, 4, 8, 6},
 								{3, 3, 0, 10, 13, 7},
@@ -806,3 +805,82 @@ void CombineStoneTankPro::CSTPTest()
 	cout << "操场玩法（圆型）最大花费：" << max_Circular << endl;
 }
 
+void ZeroOnePackageTank::opt3( int n, int W)
+{
+	int* sum = new int[n];												//sum[i] 表示1~i的物品重量之和
+	sum[0] = 0;
+	for (int i = 1; i <= n; i++)
+		sum[i] = sum[i - 1] + w[i];
+	for (int i = 1; i <= n; i++)
+	{
+		//搜索下界，w[i]与剩余容量去最大值，sum[n] - sum[i - 1]表示从i..n的物品重量之和
+		int bound = max(w[i], W - (sum[n] - sum[i - 1]));
+		for (int j = W; j >= bound; j--)
+		{
+			//购物车内容量大于等于下界，比较此物品放与不放是否能使得购物车内价值最大
+			dp[j] = max(dp[j], dp[j - w[i]] + v[i]);
+		}
+	}
+}
+
+void ZeroOnePackageTank::ZOPTestNormal()
+{
+	int n, W;													//n表示n个物品，W表示购物车总容量
+	cout << "请输入物品的个数n：" << endl;
+	cin >> n;
+	cout << "请输入购物车容量W：" << endl;
+	cin >> W;
+	cout << "请依次输入每个物品的重量w和价值v，用空格分开：" << endl;
+	for (int i = 1; i <= n; i++)
+	{
+		cin >> w[i] >> v[i];
+	}
+	for (int i = 0; i <= n; i++)								//初始化第0列为0
+		c[i][0] = 0;
+	for (int j = 0; j <= W; j++)							//初始化第0行为0
+		c[0][j] = 0;
+	for (int i = 1; i <= n; i++)								//计算c[i][j]
+		for (int j = 1; j <= W; j++)
+			if (j < w[i])												//当物品重量大于购物车容量时，则不放置该物品
+				c[i][j] = c[i - 1][j];
+			else														//当物品重量小于购物车容量时，判断不放购物车价值大还是放购物车价值大
+				c[i][j] = max(c[i - 1][j], c[i - 1][j - w[i]] + v[i]);
+	cout << "装入购物车的最大价值为：" << c[n][W] << endl;
+	//逆向构造最优解
+	int j = W;
+	for (int i = n; i > 0; i--)
+		if (c[i][j] > c[i - 1][j])
+		{
+			x[i] = 1;
+			j -= w[i];
+		}
+		else
+			x[i] = 0;
+	cout << "装入购物车的物品有：";
+	for (int i = 1; i <= n; i++)
+		if (x[i] == 1)
+			cout << i << " ";
+	cout << endl;
+}
+
+void ZeroOnePackageTank::ZOPTestPro()
+{
+	int n, W;													//n表示n个物品，W表示购物车总容量
+	cout << "请输入物品的个数n：" << endl;
+	cin >> n;
+	cout << "请输入购物车容量W：" << endl;
+	cin >> W;
+	cout << "请依次输入每个物品的重量w和价值v，用空格分开：" << endl;
+	for (int i = 1; i <= n; i++)
+	{
+		cin >> w[i] >> v[i];
+	}
+	for (int j = 0; j <= W; j++)
+		dp[j] = 0;
+	opt3(n, W);
+	cout << "装入购物车的最大价值为：" << dp[W] << endl;
+	//dp数组结果
+	for (int j = 1; j <= W; j++)
+		cout << dp[j] << " ";
+	cout << endl;
+}

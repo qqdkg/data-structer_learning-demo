@@ -8,8 +8,8 @@ using namespace std;
 
 int main()
 {
-	CombineStoneTankPro CSTP;
-	CSTP.CSTPTest();
+	ZeroOnePackageTank ZOPT;
+	ZOPT.ZOPTestNormal();
 	return 0;
 }
 
