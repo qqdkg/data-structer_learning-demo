@@ -8,8 +8,8 @@ using namespace std;
 
 int main()
 {
-	ZeroOnePackageTank ZOPT;
-	ZOPT.ZOPTestNormal();
+	BinarySearchTreeTank BSTT;
+	BSTT.BSTTest_WithData();
 	return 0;
 }
 

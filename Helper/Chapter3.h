@@ -179,6 +179,21 @@ public:
 	void ZOPTestPro();
 };
 
+//4.10×îÓÅ¶þ²æËÑË÷Ê÷
+class BinarySearchTreeTank {
+private:
+	static const int size = 100;
+	double c[size][size], w[size][size], p[size], q[size];
+	int s[size][size];
+	int n, i, j, k;
+	void Optmal_BST();
+	void Optmal_BST_Pro();
+	void Construct_Optimal_BST(int i, int j, bool flag);
+public:
+	void BSTTest();
+	void BSTTest_WithData();
+};
+
 
 
 #endif // !__CHAPTER3_H

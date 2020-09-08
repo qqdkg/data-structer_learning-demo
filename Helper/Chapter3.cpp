@@ -884,3 +884,139 @@ void ZeroOnePackageTank::ZOPTestPro()
 		cout << dp[j] << " ";
 	cout << endl;
 }
+
+void BinarySearchTreeTank::Optmal_BST()
+{
+	for (int i = 1; i <= n + 1; i++)
+	{
+		c[i][i - 1] = 0;
+		w[i][i - 1] = q[i - 1];
+	}
+
+	for (int t = 1; t <= n; t++)												//t用来描述问题规模
+		for (int i = 1; i <= n - t + 1; i++)
+		{
+			//从下标为i的关键词到下标为j的关键词
+			int j = i + t - 1;
+			w[i][j] = w[i][j - 1] + p[j] + q[j];
+			c[i][j] = c[i][i - 1] + c[i + 1][j];								//初始化
+			s[i][j] = i;
+			//取k为i + 1到j之间的某个小标作为根节点，如果当k取某个值是组成的树的期望值当前最小，则k为i到j之间的根节点
+			for (int k = i + 1; k <= j; k++)
+			{
+				double temp = c[i][k - 1] + c[k + 1][j];
+				if (temp < c[i][j] && fabs(temp - c[i][j]) > 1E-6)		//c++中浮点数由于精度问题不能直接比较大小，fabs(temp - c[i][j]) > 1E-6表示两数不等
+				{
+					c[i][j] = temp;
+					s[i][j] = k;
+				}
+			}
+			c[i][j] += w[i][j];
+		}//fot i
+}
+
+void BinarySearchTreeTank::Optmal_BST_Pro()
+{
+	for (int i = 1; i <= n + 1; i++)
+	{
+		c[i][i - 1] = 0;
+		w[i][i - 1] = q[i - 1];
+	}
+
+	for (int t = 1; t <= n; t++)												//t用来描述问题规模
+		for (int i = 1; i <= n - t + 1; i++)
+		{
+			//从下标为i的关键词到下标为j的关键词
+			int j = i + t - 1;
+			w[i][j] = w[i][j - 1] + p[j] + q[j];
+			int i1 = s[i][j - 1] > i ? s[i][j - 1] : i;
+			int j1 = s[i + 1][j] < j ? s[i + 1][j] : j;
+			c[i][j] = c[i][i1 - 1] + c[i1 + 1][j];								//初始化
+			s[i][j] = i1;
+			//取k为i1 + 1到j1之间的某个小标作为根节点，如果当k取某个值是组成的树的期望值当前最小，则k为i到j之间的根节点
+			for (int k = i1 + 1; k <= j1; k++)
+			{
+				double temp = c[i][k - 1] + c[k + 1][j];
+				if (temp < c[i][j] && fabs(temp - c[i][j]) > 1E-6)		//c++中浮点数由于精度问题不能直接比较大小，fabs(temp - c[i][j]) > 1E-6表示两数不等
+				{
+					c[i][j] = temp;
+					s[i][j] = k;
+				}
+			}
+			c[i][j] += w[i][j];
+		}//fot i
+}
+
+void BinarySearchTreeTank::Construct_Optimal_BST(int i, int j, bool flag)
+{
+	if (flag == 0)
+	{
+		cout << "S" << s[i][j] << " 是根" << endl;
+		flag = 1;
+	}
+	int k = s[i][j];
+
+	//如果左子树是叶子
+	if (k - 1 < i)
+	{
+		cout << "e" << k - 1 << " is the left child of " << "S" << k << endl;
+	}
+	else
+	{																		//如果左子树不是叶子
+		cout << "S" << s[i][k - 1] << " this the left child of " << "S" << k << endl;
+		Construct_Optimal_BST(i, k - 1, 1);
+	}
+	//如果右子树是叶子
+	if (k >= j)
+	{
+		cout << "e" << j << " is the right child of " << "S" << k << endl;
+	}
+	else
+	{																		//如果右子树不是叶子
+		cout << "S" << s[k + 1][j] << " this the right child of " << "S" << k << endl;
+		Construct_Optimal_BST(k + 1, j, 1);
+	}
+}
+
+void BinarySearchTreeTank::BSTTest()
+{
+	cout << "请输入关键字的个数n：" << endl;
+	cin >> n;
+	cout << "请输入每个关键字的搜索概率：" << endl;
+	for (int i = 1; i <= n; i++)
+		cin >> p[i];
+	cout << "请依次输入每个虚节点的搜索概率：" << endl;
+	for (int i = 0; i <= n; i++)
+		cin >> q[i];
+	Optmal_BST();
+	cout << "最小的搜索成本为：" << c[1][n] << endl;
+	cout << "最优二叉搜索树为：" << endl;
+	Construct_Optimal_BST(1, n, 0);
+}
+
+void BinarySearchTreeTank::BSTTest_WithData()
+{
+	double pArr[7] = {0, 0.04, 0.09, 0.08, 0.02, 0.12, 0.14};
+	double qArr[7] = {0.06, 0.08, 0.10, 0.07, 0.05, 0.05, 0.10};
+	cout << "请输入关键字的个数n：" << endl;
+	n = 6;
+	cout << n << endl;
+	cout << "请输入每个关键字的搜索概率：" << endl;
+	for (int i = 1; i <= n; i++)
+	{
+		p[i] = pArr[i];
+		cout << p[i] << " ";
+	}
+	cout << endl;
+	cout << "请依次输入每个虚节点的搜索概率：" << endl;
+	for (int i = 0; i <= n; i++)
+	{
+		q[i] = qArr[i];
+		cout << q[i] << " ";
+	}
+	cout << endl;
+	Optmal_BST_Pro();
+	cout << "最小的搜索成本为：" << c[1][n] << endl;
+	cout << "最优二叉搜索树为：" << endl;
+	Construct_Optimal_BST(1, n, 0);
+}
