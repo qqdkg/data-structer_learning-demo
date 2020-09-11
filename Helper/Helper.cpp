@@ -9,7 +9,7 @@ using namespace std;
 int main()
 {
 	ZOPackBacktrackTank ZOPBT;
-	ZOPBT.ZOPBTest();
+	ZOPBT.ZOPBTestPro();
 	return 0;
 }
 
