@@ -174,3 +174,74 @@ bool cmp(ObjectNode a1, ObjectNode a2)
 {
 	return a1.d > a2.d;
 }
+
+//判断是否可以把结点t加入团中
+bool BigestRollTank::Place(int t)
+{
+	bool result = true;
+	for (int j = 1; j < t; j++)													//判断结点t与前t - 1个结点是否相连
+	{
+		if (x[j] && a[t][j] == 0)														//相当于x[j] == true,表示j是被选中结点,a[t][j] == 0表示t和j没有边相连
+		{
+			result = false;
+			break;
+		}
+	}
+	return result;
+}
+
+void BigestRollTank::Backtrack(int t)
+{
+	if (t > n)
+	{
+		for (int i = 1; i <= n; i++)
+		{
+			bestx[i] = x[i];
+		}
+		bestn = cn;
+		return;
+	}
+	if (Place(t))																		//满足约束条件，进入左子树，即把结点t加入团中
+	{
+		x[t] = 1;
+		cn++;
+		Backtrack(t + 1);
+		cn--;
+	}
+	if (cn + (n - t) > bestn)														//满足限界条件，进入右子树
+	{
+		x[t] = 0;
+		Backtrack(t + 1);
+	}
+}
+
+void BigestRollTank::BigestRollTest()
+{
+	int u, v;
+	//int uArr[] = { 0, 1, 1, 1, 1, 2, 3, 3, 4 };
+	//int vArr[] = { 0, 2, 3, 4, 5, 3, 4, 5, 5 };
+	cout << "请输入部落人数n（节点数）" << endl;
+	cin >> n;
+	cout << "请输入人与人的友好关系数（边数）" << endl;
+	cin >> m;
+	memset(a, 0, sizeof(a));														//把邻接矩阵中的数据初始化为0，<string.h>
+	cout << "请依次输入有友好关系的两个人（有边相连的两个节点u和v）用空格分开" << endl;
+	for (int i = 1; i <= m; i++)
+	{
+		cin >> u >> v;
+		a[u][v] = a[v][u] = 1;
+		//cout << uArr[i] << " " << vArr[i] << endl;
+		//a[uArr[i]][vArr[i]] = a[vArr[i]][uArr[i]] = 1;
+	}
+	bestn = 0;
+	cn = 0;
+	Backtrack(1);																		//从第一层开始搜索
+	cout << "国王护卫队的最大人数为：" << bestn << endl;
+	cout << "国王护卫队的成员为：";
+	for (int i = 1; i <= n; i++)
+	{
+		if (bestx[i])
+			cout << i << " ";
+	}
+	cout << endl;
+}

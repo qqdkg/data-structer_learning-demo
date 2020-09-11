@@ -8,8 +8,8 @@ using namespace std;
 
 int main()
 {
-	ZOPackBacktrackTank ZOPBT;
-	ZOPBT.ZOPBTestPro();
+	BigestRollTank BRT;
+	BRT.BigestRollTest();
 	return 0;
 }
 

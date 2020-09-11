@@ -39,7 +39,21 @@ public:
 	void ZOPBTestPro();
 };
 
-
+//部落护卫队（最大团问题）
+class BigestRollTank {
+private:
+	static const int N = 100;
+	int a[N][N];														//用邻接矩阵表示的图
+	bool x[N];															//是否将第i个结点加入团中
+	bool bestx[N];													//记录最优值
+	int bestn;															//记录最优值
+	int cn;																//当前已放入团中的节点数量
+	int n, m;															//n为图中的结点数，m为图中的边数
+	bool Place(int t);
+	void Backtrack(int t);
+public:
+	void BigestRollTest();
+};
 
 #endif // !__CHAPTER5
 
