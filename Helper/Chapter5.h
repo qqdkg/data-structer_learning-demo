@@ -55,5 +55,20 @@ public:
 	void BigestRollTest();
 };
 
+//地图着色问题（解的组织结构为一颗m叉数）
+class ColorMapQuesTank {
+private:
+	static const int Mx = 50;
+	int x[Mx];															//解向量（元组）
+	int map[Mx][Mx];												//图的邻接矩阵
+	int sum = 0;														//记录解的个数的变量
+	int n, m, edge;													//节点数，颜色数，边数
+	void CreatMap();												//创建”连通无向图“的邻接矩阵
+	bool OK(int t);													//约束条件
+	void Backtrack(int t);											//搜索函数
+public:
+	void CMQTest();
+};
+
 #endif // !__CHAPTER5
 

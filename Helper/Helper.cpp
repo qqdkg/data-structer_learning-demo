@@ -8,8 +8,8 @@ using namespace std;
 
 int main()
 {
-	BigestRollTank BRT;
-	BRT.BigestRollTest();
+	ColorMapQuesTank CMQT;
+	CMQT.CMQTest();
 	return 0;
 }
 

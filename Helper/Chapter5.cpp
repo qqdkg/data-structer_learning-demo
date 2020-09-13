@@ -245,3 +245,65 @@ void BigestRollTank::BigestRollTest()
 	}
 	cout << endl;
 }
+
+//创建邻接矩阵
+void ColorMapQuesTank::CreatMap()
+{
+	int u, v;
+	cout << "请输入边数：" << endl;
+	cin >> edge;
+	memset(map, 0, sizeof(map));											//将邻接矩阵里的数值初始化为0
+	cout << "依次输入有边相连接的两个节点u和v，用空格分开：" << endl;
+	for (int i = 1; i <= edge; i++)
+	{
+		cin >> u >> v;
+		map[u][v] = map[v][u] = 1;
+	}
+}
+
+//约束条件
+bool ColorMapQuesTank::OK(int t)
+{
+	for (int j = 1; j < t; j++)														//对1~ t - 1遍历
+	{
+		if (map[t][j])
+		{
+			if (x[t] == x[j])
+				return false;
+		}
+	}// for j
+	return true;
+}
+
+void ColorMapQuesTank::Backtrack(int t)
+{
+	if (t > n)																			//到达叶子结点
+	{
+		sum++;																		//可行解计数变量
+		cout << "第" << sum << "种可行解：";
+		for (int i = 1; i <= n; i++)
+			cout << x[i] << " ";
+		cout << endl;
+	}
+	else
+	{
+		for (int j = 1; j <= m; j++)
+		{
+			x[t] = j;																		//第t层节点的颜色遍历颜色池
+			if (OK(t))																	//如果发现邻接的节点颜色不同，则继续向下搜索
+				Backtrack(t + 1);													//本次只寻找可行解，不寻找最优解，没有设置限界函数
+		}
+	}
+}
+
+void ColorMapQuesTank::CMQTest()
+{
+	cout << "请输入节点数n：" << endl;
+	cin >> n;
+	cout << "请输入颜色数m：" << endl;
+	cin >> m;
+	CreatMap();																		//生成由地图转化而来的无向连通图的邻接矩阵
+	Backtrack(1);																		//从m叉树结构的解的组织形式的第一层开始搜索（该过程并不需要真的生成一棵m叉树）
+}
+
+
