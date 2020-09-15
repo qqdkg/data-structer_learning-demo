@@ -8,8 +8,8 @@ using namespace std;
 
 int main()
 {
-	ColorMapQuesTank CMQT;
-	CMQT.CMQTest();
+	NQueenTank NQT;
+	NQT.NQueenTest();
 	return 0;
 }
 

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
+#include <cmath>
 using namespace std;
 
 double ZOPackBacktrackTank::Bound(int i)									//计算上界
@@ -306,4 +307,43 @@ void ColorMapQuesTank::CMQTest()
 	Backtrack(1);																		//从m叉树结构的解的组织形式的第一层开始搜索（该过程并不需要真的生成一棵m叉树）
 }
 
+bool NQueenTank::Place(int t)
+{
+	bool ok = true;
+	for (int i = 1; i < t; i++)														//判断第t个皇后是否与前t - 1个皇后冲突（此时前t个皇后的位置已经被确定）
+	{
+		if (x[t] == x[i] || t - i == abs(x[t] - x[i]))
+		{
+			ok = false;
+			break;
+		}
+	}
+	return ok;
+}
 
+void NQueenTank::Backtrack(int t)
+{
+	if (t > n)
+	{
+		count++;
+		for (int i = 1; i <= n; i++)
+			cout << x[i] << " ";
+		cout << endl;
+		cout << "---------------" << endl;
+	}
+	else
+		for (int i = 1; i <= n; i++)
+		{																					//判断m个分支（m = n）的结果
+			x[t] = i;
+			if (Place(t))																//如果第t层的皇后放置在放置在第i列不冲突，则向着深度方向搜索
+				Backtrack(t + 1);
+		}
+}
+
+void NQueenTank::NQueenTest()
+{
+	cout << "请输入皇后的个数n：" << endl;
+	cin >> n;
+	Backtrack(1);																		//从第一层开始搜索
+	cout << "答案的个数是" << count << "个" << endl;
+}

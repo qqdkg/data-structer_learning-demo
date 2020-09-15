@@ -70,5 +70,17 @@ public:
 	void CMQTest();
 };
 
+class NQueenTank {
+private:
+	static const int M = 105;
+	int n;																	//n表示n个皇后
+	int x[M];															//x[i]，表示第i个皇后放在第i行的第x[i]列
+	int count = 0;
+	bool Place(int t);												//判断第t个皇后能否放置在第i个位置
+	void Backtrack(int t);											//回溯法搜索函数
+public:
+	void NQueenTest();
+};
+
 #endif // !__CHAPTER5
 
