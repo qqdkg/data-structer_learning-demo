@@ -70,6 +70,8 @@ public:
 	void CMQTest();
 };
 
+
+//N皇后问题
 class NQueenTank {
 private:
 	static const int M = 105;
@@ -81,6 +83,40 @@ private:
 public:
 	void NQueenTest();
 };
+
+//最优加工顺序问题（解的空间结构为一颗排列树）
+//需要求最优解所以有限界条件，在解空间是一颗排列树的前提下，解空间中每个排列都是一个可行解，所以不需要隐约束条件。
+
+//附录的排列树实现示例
+class ArrayTree {
+private:
+	const static int MX = 50;
+	int x[MX];
+	int n;
+	void myarray(int t);
+public:
+	void ArrayTreeTest();
+};
+
+struct BPOnode
+{
+	int x, y;								//机器零件在第一台机器上加工的时间和在第二台节气上加工的时间
+};
+
+class BestProcessOrderTank {
+private:
+	const static int INF = 0x3f3f3f3f;
+	const static int MX = 1000;
+	int n;																	//总零件数目
+	int bestf;															//当前最优加工时间
+	int f1, f2;															//当前第一台机器和第二台机器完成加工的时间
+	int x[MX], bestx[MX];
+	BPOnode T[MX];
+	void Backtrack(int t);
+public:
+	void BPOTest();
+};
+
 
 #endif // !__CHAPTER5
 

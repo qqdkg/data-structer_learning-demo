@@ -8,8 +8,9 @@ using namespace std;
 
 int main()
 {
-	NQueenTank NQT;
-	NQT.NQueenTest();
+	BestProcessOrderTank BPOT;
+	BPOT.BPOTest();
 	return 0;
 }
+
 

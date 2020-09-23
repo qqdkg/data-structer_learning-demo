@@ -347,3 +347,82 @@ void NQueenTank::NQueenTest()
 	Backtrack(1);																		//从第一层开始搜索
 	cout << "答案的个数是" << count << "个" << endl;
 }
+
+
+//5.6 最优加工顺序
+void BestProcessOrderTank::Backtrack(int t)
+{
+	if (t > n)
+	{
+		for (int i = 1; i <= n; i++)
+			bestx[i] = x[i];
+		bestf = f2;																		//最快数值
+		return;
+	}
+
+	for (int i = t; i <= n; i++)
+	{
+		f1 += T[x[i]].x;
+		int temp = f2;
+		f2 = max(f1, temp) + T[x[i]].y;
+		if (f2 < bestf)
+		{
+			//这里这部分逻辑是关于排列树的生成的，之后需要单独看下。
+			swap(x[t], x[i]);
+			Backtrack(t + 1);
+			swap(x[t], x[i]);
+		}
+		f1 -= T[x[i]].x;
+		f2 = temp;
+	}
+}
+
+void BestProcessOrderTank::BPOTest()
+{
+	cout << "请输入机器零件个数n：" << endl;
+	cin >> n;
+	cout << "请输入每个零件在第一台机器和第二台机器的加工时间，并用空隔开" << endl;
+	for (int i = 1; i <= n; i++)
+	{
+		cin >> T[i].x >> T[i].y;
+		x[i] = i;
+	}
+	//初始化
+	bestf = INF;
+	f1 = f2 = 0;
+	memset(bestx, 0, sizeof(bestx));
+	Backtrack(1);														//从第一层开始遍历		深度搜索排列树
+	cout << "最优零件加工顺序为" << endl;
+	for (int i = 1; i <= n; i++)
+		cout << bestx[i] << " ";
+	cout << endl;
+	cout << "最优的机器零件加工时间为：" << endl;
+	cout << bestf << endl;
+}
+
+void ArrayTree::myarray(int t)
+{
+	if (t > n)
+	{
+		for (int i = 1; i <= n; i++)					//输出排列
+			cout << x[i] << " ";
+		cout << endl;
+		return;
+	}
+																//可以实现排列树的递归输出，是对所谓的{1、2、...、n}的1和每一个数交换换后去头递推的实现
+	for (int i = t; i <= n; i++)						//枚举
+	{
+		swap(x[t], x[i]);									//交换
+		myarray(t + 1);									//继续深度搜索
+		swap(x[t], x[i]);									//回溯时的反操作
+	}
+}
+
+void ArrayTree::ArrayTreeTest()
+{
+	cout << "输出排列的元素个数n（求1..n的排列）：" << endl;
+	cin >> n;
+	for (int i = 1; i <= n; i++)
+		x[i] = i;
+	myarray(1);
+}
