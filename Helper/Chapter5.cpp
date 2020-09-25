@@ -176,6 +176,12 @@ bool cmp(ObjectNode a1, ObjectNode a2)
 	return a1.d > a2.d;
 }
 
+bool BPOcmp(BPOnode a, BPOnode b)
+{
+	return min(b.x, a.y) > min(b.y, a.x);												//按照贝尔曼公式排序，其实这里我没看懂
+																						//先i可能比先j好的充要条件，min{t1j, t2i} >= min{t1i, t2j} 
+}
+
 //判断是否可以把结点t加入团中
 bool BigestRollTank::Place(int t)
 {
@@ -398,6 +404,32 @@ void BestProcessOrderTank::BPOTest()
 	cout << endl;
 	cout << "最优的机器零件加工时间为：" << endl;
 	cout << bestf << endl;
+}
+
+void BestProcessOrderTank::BPOTest_Pro()
+{
+	//使用贝尔曼规则，得到先加工i好的条件是min{t1j, t2i} >= min{t1i, t2j}  于是有以下优化方式
+	cout << "请输入机器零件个数n：" << endl;
+	cin >> n;
+	cout << "请依次输入每个机器零件在第一台机器上的加工时间x和第二台机器上的加工时间y：" << endl;
+	for (int i = 1; i <= n; i++)
+	{
+		cin >> T[i].x >> T[i].y;
+		T[i].id = i;
+	}
+	sort(T + 1, T + n + 1, BPOcmp);													//排序
+	int f1 = 0, f2 = 0;
+	for (int i = 1; i <= n; i++)																//计算中时间
+	{
+		f1 += T[i].x;
+		f2 = max(f1, f2) + T[i].y;
+	}
+	cout << "最优零件加工顺序为：" << endl;
+	for (int i = 1; i <= n; i++)
+		cout << T[i].id << " ";
+	cout << endl;
+	cout << "最优机器零件加工时间为：" << endl;
+	cout << f2 << endl;
 }
 
 void ArrayTree::myarray(int t)

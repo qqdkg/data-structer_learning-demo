@@ -9,7 +9,7 @@ using namespace std;
 int main()
 {
 	BestProcessOrderTank BPOT;
-	BPOT.BPOTest();
+	BPOT.BPOTest_Pro();
 	return 0;
 }
 

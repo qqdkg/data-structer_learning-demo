@@ -101,7 +101,12 @@ public:
 struct BPOnode
 {
 	int x, y;								//机器零件在第一台机器上加工的时间和在第二台节气上加工的时间
+	int id;
 };
+
+//=======!!!
+//用于传给sort作为比较依据的函数必须为公共函数，不能是一个类的成员函数，不管是私有还是公开都不行
+bool BPOcmp(BPOnode a, BPOnode b);					//比较函数，返回值为真，a排在b前面
 
 class BestProcessOrderTank {
 private:
@@ -115,6 +120,7 @@ private:
 	void Backtrack(int t);
 public:
 	void BPOTest();
+	void BPOTest_Pro();											//使用贝尔曼规则获得的结论的新实现
 };
 
 
