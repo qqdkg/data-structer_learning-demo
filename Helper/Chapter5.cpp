@@ -458,3 +458,157 @@ void ArrayTree::ArrayTreeTest()
 		x[i] = i;
 	myarray(1);
 }
+
+void BusinessTravelTank::Traveling(int t)
+{
+	if (t > n)
+	{
+		//搜索到达叶子结点的情况
+		//最后一个城市与驻地城市有边相连（因为题目要求回到出发地），并且路径长度比当前最优值小
+		//说明找到一条最后的路径，记录相关信息
+		if (g[x[n]][1] != INF && (cl + g[x[n]][1] < bestl))
+		{
+			for (int i = 1; i <= n; i++)
+				bestx[i] = x[i];
+			bestl = cl + g[x[n]][1];
+		}
+	}
+	else
+	{
+		//没有到达叶子节点
+		for (int j = t; j <= n; j++)																		//排列树的生成
+		{
+			//搜索扩展节点的所有分支
+			//如果第t - 1个城市与第j个城市有边相连，并且可能得到更短的路线时
+			if (g[x[t - 1]][x[j]] != INF && (cl + g[x[t - 1]][x[j]] < bestl))
+			{
+				//保存第t个要去的城市编号到x[t]中，进入第t + 1层
+				swap(x[t], x[j]);																				//交换两个元素数值，为了生成排列树而采取的常规操作
+				cl = cl + g[x[t - 1]][x[t]];
+				Traveling(t + 1);																			//从t + 1层扩展节点继续搜索。
+				//第t + 1层搜索完毕
+				cl = cl - g[x[t - 1]][x[t]];
+				swap(x[t], x[j]);
+			}
+		}
+	}
+}
+
+void BusinessTravelTank::init()																		//初始化
+{
+	bestl = INF;
+	cl = 0;
+	for (int i = 1; i <= n; i++)
+		for (int j = i; j <= n; j++)
+			g[i][j] = g[j][i] = INF;
+	for (int i = 0; i <= n; i++)																			//从0开始，遍历了n + 1个元素
+	{
+		x[i] = i;																									//从0开始到n的有序自然数列
+		bestx[i] = 0;
+	}
+}
+
+void BusinessTravelTank::print()
+{
+	cout << "最短路径：" << endl;
+	for (int i = 1; i <= n; i++)
+		cout << bestx[i] << "--->";
+	cout << " 1" << endl;
+	cout << "最短路径长度：" << bestl << endl;
+}
+
+void BusinessTravelTank::BTTest()
+{
+	int u, v, w;										//u, v代表城市，w代表u，v之间的连线长度
+	cout << "请输入景点数目n（节点数）：";
+	cin >> n;
+	init();
+	cout << "请输入景点间的连线数目";
+	cin >> m;
+	cout << "请依次输入两个景点u和v以及二者距离，格式：景点u 景点v 距离w" << endl;
+	for (int i = 1; i <= m; i++)
+	{
+		cin >> u >> v >> w;
+		g[u][v] = g[v][u] = w;
+	}
+	Traveling(2);																							//因为里头的实现导致整个遍历需要从第二层开始，之前写的时候就有预感到
+	print();
+}
+
+void BadBussinessTravelTank::Init()
+{
+	memset(dp, INF, sizeof(dp));
+	memset(path, 0, sizeof(path));
+	memset(g, INF, sizeof(g));
+	bestl = INF;
+}
+
+void BadBussinessTravelTank::Traveling()
+{
+	dp[1][0] = 0;
+	S = 1 << n;									//S  = 2^n;
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			if (!(i & (1 << j))) continue;
+
+			for (int k = 0; k < n; k++)
+			{
+				if (i & (1 << k)) continue;
+				if (dp[i | (1 << k)][k] > dp[i][j] + g[j][k])
+				{
+					dp[i | (1 << k)][k] = dp[i][j] + g[j][k];
+					path[i | (1 << k)][k] = j;
+				}
+			}// for k
+
+		}// for j
+	}// for i
+	for (int i = 0; i < n; i++)												//查找最短路径长度
+	{
+		if (bestl > dp[S - 1][i] + g[i][0])
+		{
+			bestl = dp[S - 1][i] + g[i][0];
+			sx = i;
+		}
+	}
+}
+
+void BadBussinessTravelTank::print(int S, int value)
+{
+	if (!S) return;
+
+	for (int i = 0; i < n; i++)
+	{
+		if (dp[S][i] == value)
+		{
+			print(S^(1 << i), value - g[i][path[S][i]]);								//递归解析动态规划的结果
+			cout << i + 1 << "--->";
+			break;
+		}
+	}
+}
+
+void BadBussinessTravelTank::BBTTest()
+{
+	int u, v, w;										//u, v代表城市，w代表u，v之间的连线长度
+	cout << "请输入景点数目n（节点数）：";
+	cin >> n;
+	Init();
+	cout << "请输入景点间的连线数目";
+	cin >> m;
+	cout << "请依次输入两个景点u和v以及二者距离，格式：景点u 景点v 距离w" << endl;
+	for (int i = 1; i <= m; i++)
+	{
+		cin >> u >> v >> w;
+		g[u][v] = g[v][u] = w;
+	}
+	Traveling();
+	cout << "最短路径：" << endl;
+	print(S - 1, bestl - g[sx][0]);
+	cout << 1 << endl;
+	cout << "最短路径长度";
+	cout << bestl << endl;
+}
+

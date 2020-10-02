@@ -8,8 +8,8 @@ using namespace std;
 
 int main()
 {
-	BestProcessOrderTank BPOT;
-	BPOT.BPOTest_Pro();
+	BadBussinessTravelTank BBTT;
+	BBTT.BBTTest();
 	return 0;
 }
 

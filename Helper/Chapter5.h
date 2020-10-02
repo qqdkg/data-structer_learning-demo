@@ -124,5 +124,43 @@ public:
 };
 
 
+//5.7商旅问题的回溯法实现
+class BusinessTravelTank {
+private:
+	const static int INF = 1e7;									//设置一个不可能超过的最大值
+	const static int N = 10;
+	int g[N][N];														//描述节点间联系状况的邻接矩阵
+	int x[N];															//当前路径
+	int bestx[N];														//最佳路径
+	int cl;																//当前路径长度
+	int bestl;															//当前最短路径长度
+	int n, m;
+	void Traveling(int t);											//用于在解空间深度优先回溯搜索的函数
+	void init();
+	void print();
+public:
+	void BTTest();
+};
+
+//这类问题叫做TSP问题（Traveling Saleman Problems）商旅问题
+//此类问题也可以使用动态规划方法实现，但是不推荐，因为这种这种实现空间复杂度和时间负责度都很大，例如：
+//运行结果好像也不对，但是也不管了，原理之看得出是动态规划，使用的递推式没有看懂
+class BadBussinessTravelTank{
+private:
+	const static int M = 1 << 8;
+	const static int INF = 0x3f3f3f3f;
+	int dp[M + 2][20];											//dp[i][j] 表示第i个状态，到达地j个城市的最短路径
+	int g[15][15];
+	int path[M + 2][15];										//最优路径
+	int n, m;														//n个城市，m条路
+	int bestl;														//最短路径长度
+	int sx, S;
+	void Init();
+	void Traveling();
+	void print(int S, int value);
+public:
+	void BBTTest();
+};
+
 #endif // !__CHAPTER5
 
