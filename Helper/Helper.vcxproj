@@ -150,6 +150,7 @@
     <ClInclude Include="CallBackFunc.h" />
     <ClInclude Include="Chapter3.h" />
     <ClInclude Include="Chapter5.h" />
+    <ClInclude Include="Chapter6.h" />
     <ClInclude Include="DuLinkList.h" />
     <ClInclude Include="DuQueue.h" />
     <ClInclude Include="Gragh.h" />
@@ -168,6 +169,7 @@
     <ClCompile Include="Btree.cpp" />
     <ClCompile Include="Chapter3.cpp" />
     <ClCompile Include="Chapter5.cpp" />
+    <ClCompile Include="Chapter6.cpp" />
     <ClCompile Include="DuLinkList.cpp" />
     <ClCompile Include="DuQueue.cpp" />
     <ClCompile Include="Gragh.cpp" />

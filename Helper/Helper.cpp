@@ -3,13 +3,13 @@
 
 #include "stdafx.h"
 #include<iostream>
-#include "Chapter5.h"
+#include "Chapter6.h"
 using namespace std;
 
 int main()
 {
-	BadBussinessTravelTank BBTT;
-	BBTT.BBTTest();
+	ZeroOneBagSpanPro ZOBS;
+	ZOBS.ZOBSPTest();
 	return 0;
 }
 

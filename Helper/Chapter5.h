@@ -1,5 +1,5 @@
-#ifndef __CHAPTER5
-#define __CHAPTER5
+#ifndef __CHAPTER5_H
+#define __CHAPTER5_H
 
 /*
 *《趣学算法》第五章，回溯法的实例
@@ -161,6 +161,9 @@ private:
 public:
 	void BBTTest();
 };
+
+
+
 
 #endif // !__CHAPTER5
 
