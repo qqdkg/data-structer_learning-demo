@@ -154,6 +154,7 @@ private:
 	bool findpath(Position s, Position e, Position *&path, int &Pathlen);						//第三个参数为一个指针的实参(引用)
 	void Init(int m, int n);
 public:
+	void FPSTestAuto();
 	void FPSTest();
 };
 

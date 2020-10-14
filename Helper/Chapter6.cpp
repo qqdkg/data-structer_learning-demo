@@ -5,6 +5,7 @@
 #include <cstring>
 #include <cmath>
 #include <queue>
+#include <iomanip>
 
 using namespace std;
 
@@ -592,13 +593,141 @@ bool FindPathSpan::findpath(Position s, Position e, Position *& path, int & Path
 	DIR[0].x = 0;																						//向右
 	DIR[0].y = 1;
 
-	DIR[1].x = 1;																						//向上
+	DIR[1].x = 1;																						//向下
 	DIR[1].y = 0;
 
 	DIR[2].x = 0;																						//向左
 	DIR[2].y = -1;
 
-	DIR[3].x = -1;																					//向下
+	DIR[3].x = -1;																					//向上
 	DIR[3].y = 0;
-	return false;
+
+	here = s;
+	grid[s.x][s.y] = 0;																				//标记起点为0，未布线-1，墙壁-2
+	queue<Position> q;
+	for ( ; ; )
+	{
+		for (int i = 0; i < 4; i++)																//4个方向，上下左右
+		{
+			next.x = here.x + DIR[i].x;
+			next.y = here.y + DIR[i].y;
+			if (grid[next.x][next.y] == -1)													//该网格尚未布线
+			{
+				grid[next.x][next.y] = grid[here.x][here.y] + 1;
+				q.push(next);
+			}
+			if (next.x == e.x && next.y == e.y)
+				break;																					//找到目标
+		}
+		if (next.x == e.x && next.y == e.y)
+			break;																						//找到目标
+		if (q.empty())
+			return false;
+		else
+		{
+			here = q.front();
+			q.pop();
+		}
+	}
+	Pathlen = grid[e.x][e.y];																	//回溯寻找最短路径
+	path = new Position[Pathlen];
+	here = e;
+	for (int j = Pathlen - 1; j >= 0; j--)
+	{
+		path[j] = here;
+		for (int i = 0; i < 4; i++)																//沿着4个方向寻找，右下左上
+		{
+			next.x = here.x + DIR[i].x;
+			next.y = here.y + DIR[i].y;
+			if (grid[next.x][next.y] == j)
+				break;																					//找到相同数字
+		}
+		here = next;
+	}
+	return true;
+}
+
+void FindPathSpan::Init(int m, int n)
+{
+	for (int i = 1; i <= m; i++)																	//方格阵列初始化为-1
+		for (int j = 1; j <= n; j++)
+			grid[i][j] = -1;
+	for (int i = 0; i <= n + 1; i++)
+		grid[0][i] = grid[m + 1][i] = -2;
+	for (int i = 0; i <= m + 1; i++)
+		grid[i][0] = grid[i][n + 1] = -2;
+}
+
+void FindPathSpan::FPSTestAuto()
+{
+	Position a, b, *way;
+	int Len, m, n;
+	cout << "请输入方阵大小m, n" << endl;
+	//cin >> m >> n;
+	m = 5;
+	n = 6;
+	cout << m << " " << n << endl;
+	int xArr[] = { 1, 2, 3, 3, 4, 0, 2, 4, 0 };
+	int yArr[] = { 6, 3, 4, 5, 2, 0, 1, 6, 0 };
+	Init(m, n);
+	int i = 0;
+	while (!(m == 0 && n == 0))
+	{
+		cout << "请输入障碍物坐标x, y （输入0,0结束）" << endl;
+		//cin >> m >> n;
+		m = xArr[i];
+		n = yArr[i];
+		cout << m << " " << n << endl;
+		i++;
+		grid[m][n] = -2;
+	}
+	cout << "请输入起始坐标" << endl;
+	//cin >> a.x >> a.y;
+	a.x = 2;
+	a.y = 1;
+	cout << a.x << " " << a.y << endl;
+	cout << "请输入终点坐标" << endl;
+	//cin >> b.x >> b.y;
+	b.x = 4;
+	b.y = 6;
+	cout << b.x << " " << b.y << endl;
+	if (findpath(a, b, way, Len))
+	{
+		cout << "该条路径的长度为：" << Len << endl;
+		cout << "最佳路径坐标为：" << endl;
+		for (int i = 0; i < Len; i++)
+			cout << setw(2) << way[i].x << setw(2) << way[i].y << endl;						//setw(n)设域宽度为n个字符
+	}
+	else
+		cout << "任务无法完成 " << endl;
+}
+
+void FindPathSpan::FPSTest()
+{
+	Position a, b, *way;
+	int Len, m, n;
+	cout << "请输入方阵大小m, n" << endl;
+	cin >> m >> n;
+	Init(m, n);
+	int i = 0;
+	while (!(m == 0 && n == 0))
+	{
+		cout << "请输入障碍物坐标x, y （输入0,0结束）" << endl;
+		cin >> m >> n;
+		i++;
+		grid[m][n] = -2;
+	}
+	cout << "请输入起始坐标" << endl;
+	cin >> a.x >> a.y;
+	cout << "请输入终点坐标" << endl;
+	cin >> b.x >> b.y;
+	if (findpath(a, b, way, Len))
+	{
+		cout << "该条路径的长度为：" << Len << endl;
+		cout << "最佳路径坐标为：" << endl;
+		for (int i = 0; i < Len; i++)
+			cout << setw(2) << way[i].x << setw(2) << way[i].y << endl;						//setw(n)设域宽度为n个字符
+	}
+	else
+		cout << "任务无法完成 " << endl;
 }

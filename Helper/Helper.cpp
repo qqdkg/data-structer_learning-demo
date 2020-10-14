@@ -8,8 +8,8 @@ using namespace std;
 
 int main()
 {
-	TravelingSalesmanSpanPro TSSPro;
-	TSSPro.TSSProTest();
+	FindPathSpan FPS;
+	FPS.FPSTest();
 	return 0;
 }
 
