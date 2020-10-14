@@ -80,7 +80,82 @@ public:
 	void ZOBSPTest();
 };
 
+//6.3使用优先队列广度优先实现的商旅问题
+typedef struct TravelingSalesmanNode {						//结点定义，记录当前节点的解信息
+	const static int N = 20;
+	double cl;														//当前走过的路径长度
+	int id;															//节点层号
+	int x[N];														//记录当前路径
+	TravelingSalesmanNode();
+	TravelingSalesmanNode(double _cl, int _id);
+}TSNode;
 
+//用于之后把TSNode放入优先队列
+bool operator < (const TSNode &a, const TSNode &b);
+
+class TravelingSalesmanSpan {
+private:
+	const static int INF = 1e7;								//把一个很大的数作为无穷大
+	const static int N = 20;
+	double g[N][N]	;											//描述经典地图的无向带权图的邻接矩阵
+	int bestx[N];													//最优解向量
+	double bestl;												//最优解
+	int n, m;														//景点个数，边数
+	double Travelingbfs();									//使用优先队列的分支限界（广度优先）实现的商旅问题
+	void init();
+	void print();
+	void TSSTest();
+public:
+	void TSSTest2();
+};
+
+//使用费用下界作为优先队列的优先级
+typedef struct TsProNode {
+	const static int N = 20;
+	double cl;																							//当前已走过的路径长度
+	double rl;																							//剩余路径长度的下界
+	double zl;																							//当前路径长度的下界 zl = cl + rl;
+	int id;																								//景点序号
+	int x[N];																							//当前节点解向量
+	TsProNode();
+	TsProNode(double _cl, double _rl, double _zl, int _id);
+}TspNode;
+
+bool operator < (const TspNode &a, const TspNode &b);
+
+class TravelingSalesmanSpanPro {
+private:
+	const static int INF = 1e7;
+	const static int N = 20;
+	double g[N][N];																				//景点地图的邻接矩阵
+	double minout[N];																			//记录每个景点结点的最小出边
+	double minsum;																				//记录每个结点的最小出边之和
+	int bestx[N];																						//记录当前最优路径
+	double	bestl;																					//记录当前最优解
+	int n, m;																							//顶点数，边数
+	bool Bound();																					//获取下界
+	double Travelingbfsopt();
+	void Init();
+	void print();
+public:
+	void TSSProTest();
+	void TSSProTest2();
+};
+
+typedef struct PositionNodeTypedef {
+	int x;
+	int y;
+}Position;
+
+class FindPathSpan {
+private:
+	const static int N = 20;
+	int grid[N][N];
+	bool findpath(Position s, Position e, Position *&path, int &Pathlen);						//第三个参数为一个指针的实参(引用)
+	void Init(int m, int n);
+public:
+	void FPSTest();
+};
 
 
 

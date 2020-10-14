@@ -8,8 +8,8 @@ using namespace std;
 
 int main()
 {
-	ZeroOneBagSpanPro ZOBS;
-	ZOBS.ZOBSPTest();
+	TravelingSalesmanSpanPro TSSPro;
+	TSSPro.TSSProTest();
 	return 0;
 }
 
