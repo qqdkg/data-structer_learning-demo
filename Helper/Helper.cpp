@@ -2,14 +2,15 @@
 //
 
 #include "stdafx.h"
-#include<iostream>
-#include "Chapter6.h"
+//#include "Chapter6.h"
+#include "YJHelper.h"
 using namespace std;
+
 
 int main()
 {
-	FindPathSpan FPS;
-	FPS.FPSTest();
+	EncodeingTank ET;
+	ET.ETest();
 	return 0;
 }
 
