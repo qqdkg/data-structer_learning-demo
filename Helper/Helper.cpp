@@ -2,16 +2,19 @@
 //
 
 #include "stdafx.h"
-//#include "Chapter6.h"
 #include "YJHelper.h"
+#include <iostream>
 using namespace std;
 
 
+//=============Ö÷º¯Êý
 int main()
 {
-	EncodeingTank ET;
-	ET.ETest();
+	cout << "Hello World" << endl;
 	return 0;
 }
+
+
+
 
 

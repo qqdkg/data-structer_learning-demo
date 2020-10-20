@@ -1,6 +1,8 @@
 #ifndef __YJHELPE_H_
 #define __YJHELPE_H_
 
+#include <string>
+
 //创建于2020-10-14
 //主要用于尹洁师姐面试大华的大题助攻,虽然我当时实际上制作出了第一题，第三题次日做出来了，如果时间够的话，这种题是可以做出来的
 
@@ -72,6 +74,33 @@ private:
 public:
 	void ETest();																		//入口程序
 };
+
+
+//新华三笔试题第一题
+//请字符串压缩，如：f :“abcccccDD” -> "abc5D2"
+//																		5个c 2个D
+class Solution {
+public:
+	std::string MyCompress(std::string pcStr);
+	std::string dkgCompress(std::string pcStr);															//昨天栽在sting的操作上了，今天尝试一下
+	void Test();
+};
+
+//新华三笔试题第二题
+//寻找一个整数的所有因数中最中间的那个数
+//举例：
+//16有5个因数，分别是1,2,4,8,16.																			//最中间的是4
+//12有6个因数，分别是1,2,3,4,6,12.																		//最中间的是4
+class findMidTank {
+private:
+	long long MidFactor(long long llVal);
+public:
+	void findMidTest();
+};
+
+
+
+
 
 
 

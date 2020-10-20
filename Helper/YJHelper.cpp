@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <stack>
+#include <vector>
 #include "YJHelper.h"
 using namespace std;
 
@@ -29,8 +30,8 @@ typedef struct Seden {
 
 void HelloWorld()
 {
-	Sedan_s se;
-	cout << sizeof(se) << endl;
+	/*Sedan_s se;
+	cout << sizeof(se) << endl;*/
 }
 
 int FindMaxSub::Find()
@@ -212,7 +213,6 @@ void EncodeingTank::Encoding()
 			cout << "可能出问题了。" << endl;
 		}
 	}
-
 }
 
 void EncodeingTank::ETest()
@@ -227,3 +227,120 @@ void EncodeingTank::ETest()
 	}
 	cout << endl << endl;
 }
+
+
+string Solution::MyCompress(string str)
+{
+	// write your code here
+	int index;
+	int count = 1;
+	string compressStr = "";
+	int compressIndex = 0;
+
+	if (str.size() == 0)
+		return str;
+
+	for (index = 0; index<str.size(); index++)
+	{
+
+		if (1 == count)
+		{
+			compressStr += str[index];
+			compressIndex++;
+		}
+		if (str[index] == str[index + 1])
+		{
+			count++;
+			continue;
+		}
+		if (count != 1)
+		{
+			compressStr += to_string(count);
+		}
+		compressIndex++;
+		count = 1;
+	}
+
+	if (compressStr.size() >= str.size())
+		return str;
+	else
+		return compressStr;
+}
+
+string Solution::dkgCompress(string pcStr)
+{
+	string pressStr;
+	int count = 1;
+	int cpindex = 0;																		//字符复制位置
+
+	if (pcStr.size() == 0)
+		return pcStr;
+
+	for (int i = 1; i < pcStr.size(); i++)
+	{
+		if (pcStr[cpindex] != pcStr[i])
+		{
+			//如果当前复制位置与遍历位置的字符不相等，只有两种情况
+			//1.当前赋值位置的字符指出现了一次（count == 1），此时直接将当前赋值位置的字符复制给压缩字符串
+			//2.当前赋值位置的字符出现了不止一次。则将赋值位置的字符和其出现的次数count加入压缩字符串
+			if (count == 1)
+			{
+				pressStr += pcStr[cpindex];
+				cpindex = i;
+			}
+			else
+			{
+				pressStr += pcStr[cpindex];
+				pressStr += to_string(count);
+				cpindex = i;															//当前赋值位置字符去到i位置
+				count = 1;															//count置为1
+			}
+		}
+		else
+		{
+			count++;
+		}
+	}
+
+	//处理结尾部分
+	if (count == 1)
+	{
+		pressStr += pcStr[cpindex++];
+	}
+	else
+	{
+		pressStr += pcStr[cpindex++];
+		pressStr += to_string(count);
+	}
+
+	return pressStr;
+}
+
+void Solution::Test()
+{
+	string str;
+	Solution s;
+	cin >> str;
+	cout << s.dkgCompress(str) << endl;
+}
+
+long long findMidTank::MidFactor(long long llVal)
+{
+	vector<long long> numArr;
+	for (long long i = 1; i <= llVal; i++)
+	{
+		if (llVal % i == 0)
+			numArr.push_back(i);
+	}
+	int index = numArr.size() / 2;
+	return numArr.at(index);
+}
+
+void findMidTank::findMidTest()
+{
+	long long llVal;
+	cin >> llVal;
+	cout << MidFactor(llVal) << endl;
+}
+
+
