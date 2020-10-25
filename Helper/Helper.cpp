@@ -2,15 +2,15 @@
 //
 
 #include "stdafx.h"
-#include "YJHelper.h"
-#include <iostream>
+#include "Chapter7.h"
 using namespace std;
 
 
 //=============Ö÷º¯Êý
 int main()
 {
-	cout << "Hello World" << endl;
+	BestBenefitTank BBT;
+	BBT.BBTTest();
 	return 0;
 }
 
