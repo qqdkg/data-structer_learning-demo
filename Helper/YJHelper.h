@@ -2,6 +2,8 @@
 #define __YJHELPE_H_
 
 #include <string>
+#include <queue>
+#include <stack>
 
 //创建于2020-10-14
 //主要用于尹洁师姐面试大华的大题助攻,虽然我当时实际上制作出了第一题，第三题次日做出来了，如果时间够的话，这种题是可以做出来的
@@ -96,6 +98,41 @@ private:
 	long long MidFactor(long long llVal);
 public:
 	void findMidTest();
+};
+
+
+//趣学算法群的一个问题
+class PalindromeTower {
+private:
+	const static int N = 10;
+	char map[20][20];																										//绘图空间
+	char pdArr[N];																											//回文内容数组
+	int index;																													//指向回文数组中当前数组
+	std::queue<char> left;																									//左侧字符，一个栈
+	std::stack<char> right;																									//右侧字符，一个队列
+	int n;
+	void Init();
+public:
+	void ShowPalindromeTower();																					//显示回文塔（b）
+};
+
+class NumTower {
+private:
+	const static int N = 20;
+	int n;																															//数字塔最大数字
+	void Init();
+	void ShowRows(int num);																							//展示某一行
+public:
+	void showNumTower();
+};
+
+class InterestingTower {
+private:
+	const static int N = 20;
+	std::queue<char> q;
+	void Init();
+public:
+	void ShowInteresting();
 };
 
 

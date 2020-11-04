@@ -6,6 +6,7 @@
 #include <ctype.h>
 #include <stack>
 #include <vector>
+#include <queue>
 #include "YJHelper.h"
 using namespace std;
 
@@ -344,3 +345,146 @@ void findMidTank::findMidTest()
 }
 
 
+void PalindromeTower::Init()
+{
+	cout << "本例将展示一座数字回文塔" << endl;
+	cout << "请输入回文塔最大数n（1 <= n <= " << N << ")" << endl;
+	cin >> n;
+	if (n <0 || n >N)																					//简单的合法性检查
+	{
+		cout << "输入不合法。" << endl;
+		return;
+	}
+
+	memset(map, ' ', sizeof(map));
+	//初始化
+	for (int i = 1; i <= n; i++)
+	{
+		pdArr[i] = '0' + i;
+	}
+	index = 1;
+	for (int i = 1; i <= (n - 1); i++)
+	{
+		left.push(' ');
+	}
+}
+
+void PalindromeTower::ShowPalindromeTower()
+{
+	Init();
+
+	for (int i = 1; i <= n; i++)
+	{
+		queue<char> tempLeft = left;
+		stack<char> tempRight = right;
+		//显示一行
+		while (!tempLeft.empty())
+		{
+			cout << tempLeft.front();
+			tempLeft.pop();
+		}
+		cout << pdArr[index];
+		while (!tempRight.empty())
+		{
+			cout << tempRight.top();
+			tempRight.pop();
+		}
+		cout << endl;
+		//更新
+		left.pop();
+		left.push(pdArr[index]);
+		right.push(pdArr[index]);
+		index++;
+	}
+	cout << endl;
+}
+
+void NumTower::Init()
+{
+	cout << "本例将展示一座数字塔" << endl;
+	cout << "请输入回文塔最大数n（1 <= n <= " << N << ") : " ;
+	cin >> n;
+	if (n <0 || n >N)																					//简单的合法性检查
+	{
+		cout << "输入不合法。" << endl;
+		return;
+	}
+
+}
+
+void NumTower::ShowRows(int num)
+{
+	//输出左半边
+	num = num - 1;
+	int leftn = n - 1;
+	for (int i = 1; i <= (leftn - num); i++)
+	{
+		cout << " ";
+	}
+	for (int i = 1; i <= num; i++)
+	{
+		cout << num + 1;
+	}
+
+	//输出中间
+	cout << num + 1;
+
+	//输出右边
+	for (int i = 1; i <= num; i++)
+	{
+		cout << num + 1;
+	}
+	int rightn = leftn;
+	for (int i = 1; i <= (rightn - num); i++)
+	{
+		cout << " ";
+	}
+	cout << endl;
+}
+
+void NumTower::showNumTower()
+{
+	Init();
+
+	for (int i = 1; i <= n; i++)
+	{
+		ShowRows(i);
+	}
+	for (int i = n - 1; i >= 1; i--)
+	{
+		ShowRows(i);
+	}
+}
+
+void InterestingTower::Init()
+{
+	cout << "请输入一段字符，输出半个字符塔(以“0”结尾) : ";
+	char tempch = '1';
+	while (true)
+	{
+		cin >> tempch;
+		if (tempch == '0')
+			break;
+		q.push(tempch);
+	}
+}
+
+void InterestingTower::ShowInteresting()
+{
+	Init();
+
+	int blanknum = q.size();
+	while (!q.empty())
+	{
+		queue<char> tempq = q;
+		for (int i = 1; i <= blanknum; i++)
+			cout << " ";
+		while (!tempq.empty())
+		{
+			cout << tempq.front();
+			tempq.pop();
+		}
+		cout << endl;
+		q.pop();
+	}
+}

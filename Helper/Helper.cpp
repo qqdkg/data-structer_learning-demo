@@ -3,18 +3,16 @@
 
 #include "stdafx.h"
 #include "Chapter7.h"
+#include <iostream>
 using namespace std;
 
 
 //=============Ö÷º¯Êý
 int main()
 {
-	BestBenefitTank BBT;
-	BBT.BBTTest();
+	cout << "Hello World" << endl;
 	return 0;
 }
-
-
 
 
 
