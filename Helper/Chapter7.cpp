@@ -3,6 +3,7 @@
 #include <iostream>
 #include <math.h>
 #include <iomanip>
+#include <queue>
 #include <stdio.h>
 using namespace std;
 
@@ -180,3 +181,118 @@ void BestBenefitTank::BBTTest2()
 	print();
 	DCXA();
 }
+
+bool NetFlowSapTank::bfs(int s, int t)
+{
+	memset(pre, -1, sizeof(pre));
+	memset(vis, false, sizeof(vis));
+	queue<int>q;
+	vis[s] = true;
+	q.push(s);
+	while (!q.empty())
+	{
+		int now = q.front();
+		q.pop();
+		for (int i = 1; i <= n; i++)																//寻找可曾广路
+		{
+			if (!vis[i] && g[now][i] > 0)														//未被访问，且有边相连
+			{
+				vis[i] = true;
+				pre[i] = now;
+				if (i == t) return true;
+				q.push(i);
+			}
+		}
+	}
+	return false;																						//找不到可增广路
+}
+
+int NetFlowSapTank::EK(int s, int t)
+{
+	int v, w, d, maxflow;
+	maxflow = 0;
+	while (bfs(s, t))																					//可增广
+	{
+		v = t;
+		d = INF;
+		while (v != s)																					//找可增量d
+		{
+			w = pre[v];																				//w记录v的前驱
+			if (d > g[w][v])
+				d = g[w][v];
+			v = w;
+		}
+		maxflow += d;
+		v = t;
+		while (v != s)																					//沿着可增广路增流
+		{
+			w = pre[v];
+			g[w][v] -= d;																				//残余网络中正向边减流
+			g[v][w] += d;																			//反向边增流
+
+			if (f[v][w] > 0)																			//实流网络如果是反向边则减流，正向边则增流
+				f[v][w] -= d;
+			else
+				f[w][v] += d;
+			v = w;
+		}
+	}
+	return maxflow;
+}
+
+void NetFlowSapTank::print()
+{
+	cout << endl;
+	cout << "-----------实流网络如下------------" << endl;
+	cout << "  ";
+	for (int i = 1; i <= n; i++)
+		cout << setw(7) << "v" << i;
+	cout << endl;
+	for (int i = 1; i <= n; i++)
+	{
+		cout << "v" << i;
+		for (int j = 1; j <= n; j++)
+			cout << setw(7) << f[i][j];
+		cout << endl;
+	}
+}
+
+void NetFlowSapTank::NFSTTest()
+{
+	int u, v, w;
+	const static int maxn = 9 + 1;
+	//用于调试的预存储数据
+	int uArr[maxn] = { 0,1,1,2,3,3,4,4,5,5 };
+	int vArr[maxn] = { 0,2,3,4,2,5,3,6,4,6 };
+	int wArr[maxn] = { 0,12,10,8,2,13,5,18,6,4 };
+	
+	memset(g, 0, sizeof(g));
+	memset(f, 0, sizeof(f));
+	cout << "请输入节点个数n和边数m：" << endl;
+	//cin >> n >> m;
+	n = 6;
+	m = 9;
+	cout << n << " " << m << endl;
+	cout << "请输入两个节点u，v以及边（u--v）的容量w：" << endl;
+	for (int i = 1; i <= m; i++)
+	{
+		//cin >> u >> v >> w;
+		u = uArr[i];
+		v = vArr[i];
+		w = wArr[i];
+		cout << u << " " << v << " " << w << endl;
+		g[u][v] += w;
+	}
+	cout << "最大网络流量：" << EK(1, n);
+	print();
+}
+
+
+
+
+
+
+
+
+
+

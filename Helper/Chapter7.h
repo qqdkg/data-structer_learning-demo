@@ -21,6 +21,23 @@ public:
 	void BBTTest2();
 };
 
+//最大网络流-最短增广路算法（Shortest Augument Path）
+class NetFlowSapTank {
+private:
+	const static  int N = 20;
+	const static int INF = (1 << 30) - 1;
+	int g[N][N];														//残余网络（初始时各边为容量）
+	int f[N][N];														//实流网络（初始时各边为0流）
+	int pre[N];															//前驱数组
+	bool vis[N];														//访问数组
+	int n, m;
+	bool bfs(int s, int t);
+	int EK(int s, int t);
+	void print();
+public:
+	void NFSTTest();
+};
+
 
 
 #endif // !__CHAPTER3_H_

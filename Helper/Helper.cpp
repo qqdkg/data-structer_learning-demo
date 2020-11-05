@@ -10,7 +10,8 @@ using namespace std;
 //=============Ö÷º¯Êý
 int main()
 {
-	cout << "Hello World" << endl;
+	NetFlowSapTank NFST;
+	NFST.NFSTTest();
 	return 0;
 }
 
