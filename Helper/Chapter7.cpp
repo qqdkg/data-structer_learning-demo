@@ -4,6 +4,8 @@
 #include <math.h>
 #include <iomanip>
 #include <queue>
+#include <cstring>
+#include <algorithm>
 #include <stdio.h>
 using namespace std;
 
@@ -287,6 +289,169 @@ void NetFlowSapTank::NFSTTest()
 	print();
 }
 
+//使用重贴标签思路的最短曾广路算法
+void ISAPTank::init()
+{
+	memset(V, -1, sizeof(V));
+	top = 0;
+}
+
+void ISAPTank::add_edge(int u, int v, int c)
+{
+	//输入数据格式：u v 及边（u--v）的容量c
+	//这里的top是邻接表边集的顶部位置
+	E[top].v = v;
+	E[top].cap = c;
+	E[top].flow = 0;
+	E[top].next = V[u].first;										//连接到邻接表中
+	V[u].first = top++;
+}
+
+void ISAPTank::add(int u, int v, int c)
+{
+	add_edge(u, v, c);
+	add_edge(v, u, 0);
+}
+
+void ISAPTank::set_h(int t, int n)							//标高函数
+{
+	queue<int> Q;													//创建一个队列，用于广度优先搜索
+	memset(h, -1, sizeof(h));									//初始化高度标记数组为-1
+	memset(g, 0, sizeof(g));									//初始化同高度节结点数量记录数组为0
+	h[t] = 0;															//如队
+	Q.push(t);
+	while (!Q.empty())
+	{
+		int v = Q.front();
+		Q.pop();														//队首元素出队
+		++g[h[v]];														//处于这个高度的元素个数+1
+		for (int i = V[v].first; ~i; i = E[i].next)
+		{
+			int u = E[i].v;
+			if (h[u] == -1)
+			{
+				h[u] = h[v] + 1;										//将v的相邻节点高度设置为比v高度高一层
+				Q.push(u);
+			}
+		}
+	}
+	cout << "初始化高度" << endl;
+	cout << "h[ ] = ";
+	for (int i = 1; i <= n; i++)
+		cout << " " << h[i];
+	cout << endl;
+}
+
+int ISAPTank::Isap(int s, int t, int n)
+{
+	set_h(t, n);																		//标高函数
+	int ans = 0, u = s;															//初始化ans = 0，边起始节点等于源点
+	int d;
+	while (h[s] < n)
+	{
+		int i = V[u].first;	
+		if (u == s)
+			d = inf;
+		for (; ~i; i = E[i].next)													//搜索当前结点的邻接边
+		{
+			int v = E[i].v;
+			if (E[i].cap > E[i].flow && h[u] == h[v] + 1)			//沿着有可增量和高度方向减1的方向搜索。
+			{
+				u = v;
+				pre[v] = i;
+				d = min(d, E[i].cap - E[i].flow);							//得到最小增量
+				if (u == t)
+				{
+					cout << "增广路径" << t;
+					while (u != s)												//从汇点开始，沿着增广路径一直搜索到源点
+					{
+						int j = pre[u];											//j为u的前驱边，即增广路上j为u的入边
+						E[j].flow += d;											//j边的流量+d；
+						E[j ^ 1].flow -= d;										//j边的反向边流量-d
+						/*
+						*j ^ 1表示j与1进行“二进制异或运算”，因为创建时是成对创建的，
+						*0号边的方向是1号，二进制0与1异或运算的结果正好是1号
+						*即2号边的反向边是3，二进制10与1的异或运算正好是11，
+						*即3号边，因此当前编号和1的异或运算可以得到当前边的反向边
+						*/
+						u = E[j ^ 1].v;											//向前搜索
+						cout << "--" << u;
+					}
+					cout << "增流：" << d << endl;
+					ans += d;
+					d = inf;
+				}//=if (u == t)
+				break;																//找到一条可行邻接边，退出for语句，继续向前走
+			}//=if (E[i].cap > ...
+		}//=for (; ~i; i = E[i].next)		
+		if (i == -1)																//当前结点的所有邻接结点搜索完毕，无法进行
+		{
+			if (--g[h[u]] == 0)													//如果该高度的结点只有一个，算法结束
+				break;
+			int hmin = n - 1;
+			for (int j = V[u].first; ~j; j = E[j].next)
+			{
+				if (E[j].cap > E[j].flow)										//有可增量
+					hmin = min(hmin, h[E[j].v]);							//所有邻接点高度的最小值
+			}
+			h[u] = hmin + 1;													//重新标高，所有邻接点高度的最小值+1
+			cout << "重贴标签之后的高度" << endl;
+			cout << "h[ ] = ";
+			for (int i = 1; i <= n; i++)
+				cout << " " << h[i];
+			cout << endl;
+			++g[h[u]];															//重新标高后的该高度节点数+1
+			if (u != s)																//如果当前结点不是源点
+				u = E[pre[u] ^ 1].v;											//向前退回一步，重新搜索增广路径
+		}
+	}//=while (h[s] < n)
+	return ans;
+}
+
+void ISAPTank::printg(int n)																	//输出网络邻接表
+{
+	cout << "---------网络邻接表入下：----------" << endl;
+	for (int i = 1; i <= n; i++)
+	{
+		cout << "v" << i << "  [" << V[i].first;
+		for (int j = V[i].first; ~j; j = E[j].next)
+			cout << "]--[" << E[j].v << "  " << E[j].cap << "  " << E[j].flow << "  " << E[j].next;
+		cout << "]" << endl;
+	}
+}
+
+void ISAPTank::printflow(int n)																						//输出实流边
+{
+	cout << "----------实流边如下----------" << endl;
+	for (int i = 1; i <+ n; i++)
+		for (int j = V[i].first; ~j; j = E[j].next)
+			if (E[j].flow > 0)
+			{
+				cout << "v" << i << "--" << "v" << E[j].v << "  " << E[j].flow;
+				cout << endl;
+			}
+}
+
+void ISAPTank::ISAPTest()
+{
+	int n, m;
+	int u, v, w;
+	cout << "请输入结点数n和边数m：" << endl;
+	cin >> n >> m;
+	init();
+	cout << "请输入两个节点u，v及边(u--v)的容量w：" << endl;
+	for (int i = 1; i <= m; i++)
+	{
+		cin >> u >> v >> w;
+		add(u, v, w);																	//添加两条边
+	}
+	cout << endl;
+	printg(n);																			//输出初始网络邻接表
+	cout << "网络最大流量值为：" << Isap(1, n, n) << endl;
+	cout << endl;
+	printg(n);																			//输出最终网络
+	printflow(n);																		//输出实流边
+}
 
 
 

@@ -10,8 +10,8 @@ using namespace std;
 //=============Ö÷º¯Êý
 int main()
 {
-	NetFlowSapTank NFST;
-	NFST.NFSTTest();
+	ISAPTank ISAPT;
+	ISAPT.ISAPTest();
 	return 0;
 }
 

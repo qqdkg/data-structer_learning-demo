@@ -38,6 +38,38 @@ public:
 	void NFSTTest();
 };
 
+//使用数组的形式实现邻接表
+typedef struct Vertex {
+	int first;
+}Vertex;
+
+typedef struct Edge {
+	int v, next;
+	int cap, flow;
+}Edge;
+
+//使用重贴标签思路的最短曾广路算法
+class ISAPTank {
+private:
+	const int inf = 0x3fffffff;
+	const static int N = 100;
+	const static int M = 10000;
+	int top;
+	int h[N];															//h[]数据组记录每个结点的高度，既到汇点的最短距离
+	int pre[N];															//pre[]数组记录当前结点的前驱边,pre[v] = i;表示结点v前驱边为i，即搜索路径入边
+	int g[N];															//g[]数组记录高度（到汇点最短距离）为h[]的节点的个数，如：g[3] = 1表示高度3的结点个数为1个
+	Vertex V[N];														//顶点数组
+	Edge E[M];														//边数组
+	void init();
+	void add_edge(int u, int v, int c);						//创建边
+	void add(int u, int v, int c);								//穿件两条边
+	void set_h(int t, int n);										//标高函数
+	int Isap(int s, int t, int n);									//升级版最短增广路算法（Imporved Shortest Argument Path）
+	void printg(int n);												//输出网络邻接表
+	void printflow(int n);											//输出实流边
+public:
+	void ISAPTest();												//例程入口函数
+};
 
 
 #endif // !__CHAPTER3_H_
