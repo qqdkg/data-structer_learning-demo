@@ -2,16 +2,15 @@
 //
 
 #include "stdafx.h"
-#include "Chapter7.h"
-#include <iostream>
-using namespace std;
+#include "STL_Test.h"
 
 
 //=============Ö÷º¯Êý
 int main()
 {
-	ISAPTank ISAPT;
-	ISAPT.ISAPTest();
+	ItemTest();
+
+
 	return 0;
 }
 
