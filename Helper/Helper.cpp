@@ -3,13 +3,16 @@
 
 #include "stdafx.h"
 #include "STL_Test.h"
+#include "LeetCode_Test.h"
 
 
 //=============Ö÷º¯Êý
 int main()
 {
-	ItemTest();
+	
 
+	//unordmap_strmap();
+	reverseVowels_Test();
 
 	return 0;
 }

@@ -84,6 +84,21 @@
     <ClInclude Include="STL_Test.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="print.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="hashval.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="buckets.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="STL_String.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="LeetCode_Test.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

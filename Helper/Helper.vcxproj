@@ -147,6 +147,7 @@
   <ItemGroup>
     <ClInclude Include="AlgoGate.h" />
     <ClInclude Include="Btree.h" />
+    <ClInclude Include="buckets.h" />
     <ClInclude Include="CallBackFunc.h" />
     <ClInclude Include="Chapter3.h" />
     <ClInclude Include="Chapter5.h" />
@@ -156,13 +157,17 @@
     <ClInclude Include="DuQueue.h" />
     <ClInclude Include="Gragh.h" />
     <ClInclude Include="GreedySnake.h" />
+    <ClInclude Include="hashval.h" />
+    <ClInclude Include="LeetCode_Test.h" />
     <ClInclude Include="LinkQueue.h" />
     <ClInclude Include="LinkStack.h" />
+    <ClInclude Include="print.h" />
     <ClInclude Include="sqList.h" />
     <ClInclude Include="SqQueue.h" />
     <ClInclude Include="SqStack.h" />
     <ClInclude Include="SString.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="STL_String.h" />
     <ClInclude Include="STL_Test.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TicketSale.h" />
