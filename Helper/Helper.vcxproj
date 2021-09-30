@@ -100,7 +100,8 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>false</SDLCheck>
+      <StructMemberAlignment>Default</StructMemberAlignment>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -145,7 +146,6 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AlgoGate.h" />
     <ClInclude Include="Btree.h" />
     <ClInclude Include="buckets.h" />
     <ClInclude Include="CallBackFunc.h" />
@@ -153,15 +153,26 @@
     <ClInclude Include="Chapter5.h" />
     <ClInclude Include="Chapter6.h" />
     <ClInclude Include="Chapter7.h" />
+    <ClInclude Include="dkgPrint.h" />
+    <ClInclude Include="dkgPrintArr.h" />
+    <ClInclude Include="dkgSort.h" />
+    <ClInclude Include="dkgSwapNumStr.h" />
+    <ClInclude Include="dkgUniqPath.h" />
     <ClInclude Include="DuLinkList.h" />
     <ClInclude Include="DuQueue.h" />
+    <ClInclude Include="EffectiveCPP.h" />
     <ClInclude Include="Gragh.h" />
     <ClInclude Include="GreedySnake.h" />
     <ClInclude Include="hashval.h" />
     <ClInclude Include="LeetCode_Test.h" />
+    <ClInclude Include="LinkedListTest.h" />
     <ClInclude Include="LinkQueue.h" />
     <ClInclude Include="LinkStack.h" />
+    <ClInclude Include="LSB.h" />
+    <ClInclude Include="Metro_Prob.h" />
+    <ClInclude Include="OfferSword.h" />
     <ClInclude Include="print.h" />
+    <ClInclude Include="Singleton.h" />
     <ClInclude Include="sqList.h" />
     <ClInclude Include="SqQueue.h" />
     <ClInclude Include="SqStack.h" />
@@ -169,24 +180,33 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="STL_String.h" />
     <ClInclude Include="STL_Test.h" />
+    <ClInclude Include="substr_D22.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TicketSale.h" />
+    <ClInclude Include="TraceProblem.h" />
+    <ClInclude Include="Union-Find.h" />
+    <ClInclude Include="XiaoMiCar.h" />
     <ClInclude Include="YJHelper.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AlgoGate.cpp" />
     <ClCompile Include="Btree.cpp" />
     <ClCompile Include="Chapter3.cpp" />
     <ClCompile Include="Chapter5.cpp" />
     <ClCompile Include="Chapter6.cpp" />
     <ClCompile Include="Chapter7.cpp" />
+    <ClCompile Include="dkgPrint.cpp" />
+    <ClCompile Include="dkgSort.cpp" />
     <ClCompile Include="DuLinkList.cpp" />
     <ClCompile Include="DuQueue.cpp" />
     <ClCompile Include="Gragh.cpp" />
     <ClCompile Include="GreedySnake.cpp" />
     <ClCompile Include="Helper.cpp" />
+    <ClCompile Include="LinkedListTest.cpp" />
     <ClCompile Include="LinkQueue.cpp" />
     <ClCompile Include="LinkStack.cpp" />
+    <ClCompile Include="LSB.cpp" />
+    <ClCompile Include="OfferSword.cpp" />
+    <ClCompile Include="Singleton.cpp" />
     <ClCompile Include="sqList.cpp" />
     <ClCompile Include="SqQueue.cpp" />
     <ClCompile Include="SqStack.cpp" />
@@ -198,6 +218,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="TicketSale.cpp" />
+    <ClCompile Include="TraceProblem.cpp" />
+    <ClCompile Include="XiaoMiCar.cpp" />
     <ClCompile Include="YJHelper.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

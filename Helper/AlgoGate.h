@@ -59,10 +59,5 @@ void KruskalTest();
 void KruskalTestAuto();
 
 
-
-
-
-
-
 #endif // !__ALGOGATE_H
 

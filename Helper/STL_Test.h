@@ -572,6 +572,40 @@ void unordmap_strmap()
 }
 
 
+// c++µÄËæ»úÊı²âÊÔ
+#include <random>
+
+void STL_RandomTest()
+{
+	std::default_random_engine dre;
+
+	std::uniform_int_distribution<int> di(10, 20);
+	for (int i = 0; i < 20; ++i)
+	{
+		cout << di(dre) << " ";
+	}
+	cout << endl;
+
+	std::uniform_real_distribution<double> dr(10, 20);
+	for (int i = 0; i < 8; ++i)
+	{
+		cout << dr(dre) << " ";
+	}
+	cout << endl;
+
+	// shuffle
+	std::vector<int> v = { 1,2,3,4,5,6,7,8,9 };
+	std::shuffle(v.begin(), v.end(),
+		dre);
+	for (const auto &elem : v)
+	{
+		cout << elem << " ";
+	}
+	cout << endl;
+
+}
+
+
 
 
 

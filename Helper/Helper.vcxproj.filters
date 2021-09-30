@@ -60,9 +60,6 @@
     <ClInclude Include="GreedySnake.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="AlgoGate.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Chapter3.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -97,6 +94,51 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="LeetCode_Test.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="TraceProblem.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="dkgSwapNumStr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="LinkedListTest.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="OfferSword.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="dkgPrintArr.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectiveCPP.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="substr_D22.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Metro_Prob.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Union-Find.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="dkgSort.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="dkgUniqPath.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="LSB.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="XiaoMiCar.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="dkgPrint.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -140,9 +182,6 @@
     <ClCompile Include="GreedySnake.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="AlgoGate.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Chapter3.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -159,6 +198,30 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="TicketSale.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TraceProblem.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="LinkedListTest.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Singleton.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="OfferSword.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="dkgSort.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="LSB.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="XiaoMiCar.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="dkgPrint.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
